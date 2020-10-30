@@ -48,14 +48,10 @@ class WPSL_shop_order
 
         for ($i = 0; $i < $count; $i++) {
 
-            $j = $i + 1;
-
-
             $field .= '<div>';
-            $field .= '<label for="WPSL_customFieldTitle' . $j . '">Custom field ' . $j . ':</label>';
-            $field .= "<input type='text' id='WPSL_customFieldTitle{$j}' name='WPSL_customFieldTitle{$j}' ";
-            $field .= "value='' placeholder='Custom field {$j} title...' />";
-            $field .= '<input type="text" id="WPSL_customFieldValue' . $j . '" name="WPSL_customFieldValue' . $j . '" value="" placeholder="Custom field ' . $j . ' data..." />';
+            $field .= '<label>Custom field:</label>';
+            $field .= '<input type="text" value="" class="WPSL_customFieldTitle" placeholder="Title (optional)..." />';
+            $field .= '<input type="text" value="" class="WPSL_customFieldValue" placeholder="Value..." />';
             $field .= '</div>';
 
         }

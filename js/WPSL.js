@@ -4,27 +4,27 @@ jQuery(document).ready($ => {
 
         e.preventDefault();
 
-        const isPriority = $('#WPSL_isPriority').is(':checked') ?? null;
-
-        const customFields = [
-            {
-                title: $('#WPSL_customField1Title').val() ?? null,
-                value: $('#WPSL_customField1Value').val() ?? null
-            },
-            {
-                title: $('#WPSL_customField2Title').val() ?? null,
-                value: $('#WPSL_customField2Value').val() ?? null
-            },
-            {
-                title: $('#WPSL_customField3Title').val() ?? null,
-                value: $('#WPSL_customField3Value').val() ?? null
-            }
-
-        ]
-
         let href = $('#WPSL_href').val() ?? null;
 
         if (!href) { return; }
+
+        const isPriority = $('#WPSL_isPriority').is(':checked') ?? null;
+
+        const customFields = {
+            titles: $('.WPSL_customFieldTitle') ?? null,
+            values: $('.WPSL_customFieldValue') ?? null
+        };
+
+        let customFieldValues = [];
+
+        if (customFields.titles && customFields.values) {
+
+            customFields.titles.each(() => {
+                console.debug($(this).val());
+            })
+
+            return;
+        }
 
         if (isPriority) { href = href + '&isPriority'; }
 
