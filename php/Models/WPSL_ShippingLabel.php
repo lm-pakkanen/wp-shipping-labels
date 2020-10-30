@@ -1,12 +1,12 @@
 <?php
 
-require_once(__DIR__ . '/../libs/fpdf182/fpdf.php');
+require_once(__DIR__ . '/../../libs/fpdf182/fpdf.php');
 
 /**
  * Shipping label class
  * Handles creation of shipping label PDF
  */
-class ShippingLabel
+class WPSL_ShippingLabel
 {
 
     private FPDF $pdf;
@@ -36,7 +36,7 @@ class ShippingLabel
 
     public function generatePDF() {
 
-        if (isset($this->options['isPriority'])) {
+        if (isset($this->options['isPriority']) && $this->options['isPriority']) {
             $this->addPriorityField();
         }
 
