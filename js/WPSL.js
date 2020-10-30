@@ -40,7 +40,7 @@ jQuery(document).ready($ => {
 
         }
 
-        return window.location.href = href;
+        return window.open(href);
     });
 
 });
