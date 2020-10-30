@@ -1,0 +1,25 @@
+#woocommerce-order-WPSL > .inside > div {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 3px 0;
+}
+
+#woocommerce-order-WPSL > .inside > div:not(:first-of-type) > * {
+    margin: 5px 0;
+}
+
+#woocommerce-order-WPSL > .inside > div:first-of-type {
+    flex-direction: row;
+    line-height: 9px;
+    margin-top: 25px;
+}
+
+#WPSL_submit {
+    background: #007cba;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 13px;
+    margin-left: 5px;
+}
