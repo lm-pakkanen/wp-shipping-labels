@@ -43,8 +43,10 @@ class WPSL_ShippingLabel
         $this->addToFields();
         $this->addFromFields();
 
-        if (isset($this->options['optionalFields'])) {
-            $this->addOptionalFields();
+        var_dump($this->options);die();
+
+        if (isset($this->options['customFields'])) {
+            $this->addCustomFields();
         }
     }
 
@@ -113,14 +115,14 @@ class WPSL_ShippingLabel
         $this->pdf->Cell(0, 25, '', 0,1);
     }
 
-    private function addOptionalFields() {
+    private function addCustomFields() {
 
-        $optionalFields = $this->options['optionalFields'];
+        $customFields = $this->options['customFields'];
 
         /**
          * Add optional fields
          */
-        forEach($optionalFields as $field) {
+        forEach($customFields as $field) {
 
             if (isset($field)) {
 

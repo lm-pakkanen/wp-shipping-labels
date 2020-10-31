@@ -147,26 +147,15 @@ class WPSL_Controller
                 'country' => 'Finland'
             ];
 
-            $optionalFields = [
-                [
-                    'title' => isset($_GET['customFieldTitle1']) ? $_GET['customFieldTitle1'] : null,
-                    'value' => isset($_GET['customFieldValue1']) ? $_GET['customFieldValue1'] : null
-                ],
-                [
-                    'title' => isset($_GET['customFieldTitle2']) ? $_GET['customFieldTitle2'] : null,
-                    'value' => isset($_GET['customFieldValue2']) ? $_GET['customFieldValue2'] : null
-                ],
-                [
-                    'title' => isset($_GET['customFieldTitle3']) ? $_GET['customFieldTitle3'] : null,
-                    'value' => isset($_GET['customFieldValue3']) ? $_GET['customFieldValue3'] : null
-                ]
-            ];
+            $customFields = isset($_GET['customFields']) ? json_decode($_GET['customFields']) : null;
+
+            var_dump($customFields);die();
 
             $options = [
                 'isPriority' => isset($_GET['isPriority']),
                 'receiver' => $to,
                 'sender' => $from,
-                'optionalFields' => $optionalFields
+                'customFields' => $customFields
             ];
 
             $settings = [

@@ -15,29 +15,33 @@ jQuery(document).ready($ => {
             values: $('.WPSL_customFieldValue') ?? null
         };
 
-        let customFieldValues = [];
+        let customFieldValues = {};
 
         if (customFields.titles && customFields.values) {
 
-            customFields.titles.each(() => {
-                console.debug($(this).val());
-            })
+            for (let i = 0; i < customFields.titles.length; i++) {
 
-            return;
+                if (!(customFields.titles[i] && customFields.values[i])) {
+                    continue;
+                }
+
+                const title = $(customFields.titles[i]).val() ?? null;
+                const value = $(customFields.values[i]).val() ?? null;
+
+                if (!value) { continue; }
+
+                customFieldValues[i] = {
+                    title: title,
+                    value: value
+                }
+
+            }
         }
 
         if (isPriority) { href = href + '&isPriority'; }
 
-        for (let i = 0; i < customFields.length; i++) {
-
-            if (customFields[i].title) {
-                href = href + '&customField' + (i + 1) + 'Title=' + customFields[i].title;
-            }
-
-            if (customFields[i].value) {
-                href = href + '&customField'+ (i + 1) + 'Value=' + customFields[i].value;
-            }
-
+        if (customFieldValues) {
+            href += '&customFields=' + JSON.stringify(customFieldValues);
         }
 
         return window.open(href);
