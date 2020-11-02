@@ -43,8 +43,6 @@ class WPSL_ShippingLabel
         $this->addToFields();
         $this->addFromFields();
 
-        var_dump($this->options);die();
-
         if (isset($this->options['customFields'])) {
             $this->addCustomFields();
         }

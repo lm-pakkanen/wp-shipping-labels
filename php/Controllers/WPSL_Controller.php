@@ -130,7 +130,7 @@ class WPSL_Controller
             $to = [
                 'firstName' => $order->get_shipping_first_name(),
                 'lastName' => $order->get_shipping_last_name(),
-                'company' => isset($company) ? $company : null,
+                'company' => $company ?? null,
                 'address' => $order->get_shipping_address_1(),
                 'postCode' => $order->get_shipping_postcode(),
                 'city' => $order->get_shipping_city(),
@@ -147,9 +147,7 @@ class WPSL_Controller
                 'country' => 'Finland'
             ];
 
-            $customFields = isset($_GET['customFields']) ? json_decode($_GET['customFields']) : null;
-
-            var_dump($customFields);die();
+            $customFields = json_decode(stripslashes($_GET['customFields']), true) ?? null;
 
             $options = [
                 'isPriority' => isset($_GET['isPriority']),
