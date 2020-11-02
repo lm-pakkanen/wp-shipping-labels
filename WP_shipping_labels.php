@@ -4,6 +4,12 @@
  * Author: Harriot Software
  * Description: Print custom shipping labels automatically.
  * Version: 0.1
+ * Requires at least: 5.5
+ * Requires PHP: 7.4
+ * Text Domain: WP_shipping_labels
+ * Domain path: /languages
+ * License: GPL v3 or later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
 require_once(__DIR__ . '/php/Controllers/WPSL_Controller.php');
