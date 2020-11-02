@@ -77,7 +77,7 @@ class WP_shipping_labels {
      * Enqueue JavaScript
      */
     function addScripts() {
-        wp_register_script('WPSLScript', plugins_url( '/js/WPSL.js', __FILE__));
+        wp_register_script('WPSLScript', plugins_url( '/js/WPSL.js', __FILE__), ['jquery']);
         wp_enqueue_script('WPSLScript');
     }
 
