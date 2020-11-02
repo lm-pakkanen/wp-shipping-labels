@@ -1,5 +1,9 @@
 <?php
 
+if (!defined( 'ABSPATH' )) {
+    exit("Direct access denied.");
+}
+
 require_once(__DIR__ . '/../../libs/fpdf182/fpdf.php');
 
 /**

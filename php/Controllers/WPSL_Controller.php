@@ -1,5 +1,9 @@
 <?php
 
+if (!defined( 'ABSPATH' )) {
+    exit("Direct access denied.");
+}
+
 require_once(__DIR__ . '/../Views/WPSL_printing.php');
 require_once(__DIR__ . '/../Models/WPSL_ShippingLabel.php');
 
@@ -85,6 +89,11 @@ class WPSL_Controller
 
         if (!isset($_GET['printWPSL'])) {
             return;
+        }
+
+        if (!check_admin_referer('printWPSL')) {
+            WPSL_printing::showFatalError(new Exception('Nonce could not be verified.'));
+            die();
         }
 
         if (!$this->isUserAllowed()) {

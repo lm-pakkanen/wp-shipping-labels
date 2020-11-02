@@ -1,5 +1,8 @@
 <?php
 
+if (!defined( 'ABSPATH' )) {
+    exit("Direct access denied.");
+}
 
 class WPSL_shop_order
 {
