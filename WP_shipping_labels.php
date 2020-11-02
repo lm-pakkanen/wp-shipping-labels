@@ -24,7 +24,6 @@ class WP_shipping_labels {
      */
     public function __construct()
     {
-
         register_activation_hook(__FILE__, 'activate');
         register_deactivation_hook(__FILE__, 'deactivate');
         register_uninstall_hook(__FILE__, 'uninstall');

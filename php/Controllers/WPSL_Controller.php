@@ -20,7 +20,7 @@ class WPSL_Controller
      * Add meta box to shop_order page
      * Main interface of the plugin
      */
-    function addMetaBox() {
+    public function addMetaBox() {
 
         /**
          * Meta box contents
@@ -48,7 +48,7 @@ class WPSL_Controller
     /**
      * Gets meta box content
      */
-    function getPrintingMetaBoxContent() {
+    public function getPrintingMetaBoxContent() {
 
         global $post;
 
@@ -81,10 +81,15 @@ class WPSL_Controller
     /**
      * Creates window where PDF is shown on
      */
-    function addPrintingWindow() {
+    public function addPrintingWindow() {
 
         if (!isset($_GET['printWPSL'])) {
             return;
+        }
+
+        if (!$this->isUserAllowed()) {
+            WPSL_printing::showFatalError(new Exception('Current user is not allowed to perform this action.'));
+            die();
         }
 
         if (!isset($_GET['orderID'])) {
@@ -92,9 +97,27 @@ class WPSL_Controller
             die();
         }
 
-        if (!preg_match('/[0-9]+/', $_GET['orderID'])) {
+        if (!preg_match('/^[0-9][0-9]*$/', $_GET['orderID'])) {
             WPSL_printing::showFatalError(new Exception('Required parameter "orderID" is invalid.'));
             die();
+        }
+
+        if (isset($_GET['isPriority'])) {
+            if (strlen($_GET['isPriority']) !== 0) {
+                WPSL_printing::showFatalError(new Exception('Parameter "isPriority" is invalid.'));
+                die();
+            }
+        }
+
+        if (isset($_GET['customFields'])) {
+
+            $customFields = json_decode(stripslashes($_GET['customFields']), true);
+
+            if (!is_array($customFields)) {
+                WPSL_printing::showFatalError(new Exception('Parameter "customFields" is not an object.'));
+                die();
+            }
+
         }
 
         try {
@@ -176,5 +199,17 @@ class WPSL_Controller
             WPSL_printing::showFatalError($exception);
             die();
         }
+    }
+
+    private function isUserAllowed() {
+
+        global $current_user;
+
+        $authorized = [
+            'administrator',
+            'shop_manager'
+        ];
+
+        return array_intersect($authorized, $current_user->roles);
     }
 }
