@@ -33,7 +33,7 @@ class WPSL_settings
 
         if (!isset($name)) { return; }
 
-        $name = 'sender_' . $name;
+        $name = 'WPSL_sender_' . $name;
 
         echo '<input type="' . $type . '" name="' . $name . '" value="' . get_option($name) . '" ' . $required . '>';
     }

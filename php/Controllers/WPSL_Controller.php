@@ -41,14 +41,14 @@ class WPSL_Controller
 
         $sender_section = 'WPSL_settings_sender';
 
-        register_setting($optionGroup, 'sender_company');
-        register_setting($optionGroup, 'sender_firstName');
-        register_setting($optionGroup, 'sender_lastName');
-        register_setting($optionGroup, 'sender_address');
-        register_setting($optionGroup, 'sender_postCode');
-        register_setting($optionGroup, 'sender_city');
-        register_setting($optionGroup, 'sender_state');
-        register_setting($optionGroup, 'sender_country');
+        register_setting($optionGroup, 'WPSL_sender_company');
+        register_setting($optionGroup, 'WPSL_sender_firstName');
+        register_setting($optionGroup, 'WPSL_sender_lastName');
+        register_setting($optionGroup, 'WPSL_sender_address');
+        register_setting($optionGroup, 'WPSL_sender_postCode');
+        register_setting($optionGroup, 'WPSL_sender_city');
+        register_setting($optionGroup, 'WPSL_sender_state');
+        register_setting($optionGroup, 'WPSL_sender_country');
 
         add_settings_section(
             $sender_section,
