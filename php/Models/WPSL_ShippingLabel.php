@@ -21,20 +21,84 @@ class WPSL_ShippingLabel
         $this->options = $options;
         $this->settings = $settings;
 
+        if (!$this->isSettingsValid()) {
+            throw new Exception('PDF settings contain invalid values.');
+        }
+
         $this->createPDF();
+    }
+
+    private function isSettingsValid() {
+
+        $valid_fonts = [
+            'Courier',
+            'Helvetica',
+            'Arial',
+            'Symbol',
+            'ZapfDingbats'
+        ];
+
+        $valid_font_styles = [
+            '',
+            'B',
+            'I',
+            'U'
+        ];
+
+        if (isset($this->settings['pdfWidth'], $this->settings['pdfHeight'])) {
+
+            if (!is_int($this->settings['pdfWidth'] || !is_int($this->settings['pdfHeight']))) {
+                return false;
+            }
+
+        }
+
+        if (isset($this->settings['pdfFontFamily'])) {
+            if (!in_array($this->settings['pdfFontFamily'], $valid_fonts)) {
+                return false;
+            }
+        }
+
+        if (isset($this->settings['pdfFontStyle'])) {
+
+            $style = str_split($this->settings['pdfFontStyle']);
+
+            forEach($style as $letter) {
+
+                if (!in_array($letter, $valid_font_styles)) {
+                    return false;
+                }
+
+            }
+        }
+
+        if (isset($this->settings['pdfFontSize'])) {
+            if (!is_int($this->settings['pdfFontSize'])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function setDefaultFont() {
+
+        $fontFamily = $this->settings['pdfFontFamily'] ?? 'Times';
+        $fontStyle = $this->settings['pdfFontStyle'] ?? '';
+        $fontSize = $this->settings['pdfFontSize'] ?? 14;
+
+        $this->pdf->SetFont($fontFamily, $fontStyle, $fontSize);
+
     }
 
     private function createPDF() {
 
         $size = [ $this->settings['pdfWidth'] ?? 107, $this->settings['pdfHeight'] ?? 225 ];
 
-        $fontFamily = $this->settings['pdfFontFamily'] ?? 'Times';
-        $fontStyle = $this->settings['pdfFontStyle'] ?? '';
-        $fontSize = $this->settings['pdfFontSize'] ?? 10;
-
         $this->pdf = new FPDF('P', 'mm', $size);
         $this->pdf->AddPage();
-        $this->pdf->SetFont($fontFamily, $fontStyle, $fontSize);
+
+        $this->setDefaultFont();
 
     }
 
@@ -57,9 +121,9 @@ class WPSL_ShippingLabel
         /**
          * Add PRIORITY field to PDF
          */
-        $this->pdf->SetFont('Times', 'B', 14);
-        $this->pdf->Cell(0, 0, iconv('utf-8', 'cp1252', 'PRIORITY'),0,1, 'C');
-        $this->pdf->Cell(0, 12, '', 0,1);
+        $this->pdf->SetFont('Times', 'B', 22);
+        $this->pdf->Cell(0, 10, iconv('utf-8', 'cp1252', 'PRIORITY'),0,1, 'C');
+        $this->pdf->Cell(0, 18, '', 0,1);
 
     }
 
@@ -69,7 +133,7 @@ class WPSL_ShippingLabel
 
         $name = $to['firstName'] . ' ' . $to['lastName'];
 
-        $this->pdf->SetFont('Times', '', 10);
+        $this->setDefaultFont();
 
         /**
          * Add TO fields
@@ -96,6 +160,8 @@ class WPSL_ShippingLabel
     private function addFromFields() {
 
         $from = $this->options['sender'];
+
+        $this->setDefaultFont();
 
         /**
          * Add FROM fields
@@ -129,12 +195,12 @@ class WPSL_ShippingLabel
             if (isset($field)) {
 
                 if (isset($field['title'])) {
-                    $this->pdf->SetFont('Times', 'B', 12);
+                    $this->pdf->SetFont('Times', 'B', 16);
                     $this->pdf->Cell(0,5, iconv('utf-8', 'cp1252', $field['title']), 0, 1);
-                    $this->pdf->SetFont('Times', '', 10);
                 }
 
                 if (isset($field['value'])) {
+                    $this->setDefaultFont();
                     $this->pdf->Cell(0,5, iconv('utf-8', 'cp1252', $field['value']), 0, 1);
                     $this->pdf->Cell(0,5,'', 0,1);
                 }

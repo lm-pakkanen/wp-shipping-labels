@@ -136,7 +136,11 @@ class WPSL_printing_controller
             ];
 
             $settings = [
-
+                'pdfWidth' => !empty(get_option('WPSL_pdf_width')) ? get_option('WPSL_pdf_width') : null,
+                'pdfHeight' => !empty(get_option('WPSL_pdf_height')) ? get_option('WPSL_pdf_height') : null,
+                'pdfFontFamily' => !empty(get_option('WPSL_pdf_fontFamily')) ? get_option('WPSL_pdf_fontFamily') : null,
+                'pdfFontStyle' => !empty(get_option('WPSL_pdf_fontStyle')) ? get_option('WPSL_pdf_fontStyle') : null,
+                'pdfFontSize' => !empty(get_option('WPSL_pdf_fontSize')) ? get_option('WPSL_pdf_fontSize') : null,
             ];
 
             try {
