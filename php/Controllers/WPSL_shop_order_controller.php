@@ -64,7 +64,7 @@ class WPSL_shop_order_controller
         /**
          * Label printing URL with order ID
          */
-        $href =  wp_nonce_url(admin_url('?printWPSL&orderID=' . $order->get_id()), 'printWPSL');
+        $href =  wp_nonce_url(admin_url('?WPSL_printing&orderID=' . $order->get_id()), 'WPSL_printing');
 
         $options = [
             'href' => $href,

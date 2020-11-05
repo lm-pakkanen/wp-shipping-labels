@@ -24,11 +24,11 @@ class WPSL_printing_controller
      */
     private function addPrintingWindow() {
 
-        if (!isset($_GET['printWPSL'])) {
+        if (!isset($_GET['WPSL_printing'])) {
             return;
         }
 
-        if (!check_admin_referer('printWPSL')) {
+        if (!check_admin_referer('WPSL_printing')) {
             WPSL_printing::showFatalError(new Exception('Nonce could not be verified.'));
             die();
         }

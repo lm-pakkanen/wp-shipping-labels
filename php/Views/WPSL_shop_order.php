@@ -25,7 +25,7 @@ class WPSL_shop_order
      * @return string
      */
     private static function getUrlInput(string $href) {
-        $href = htmlspecialchars($href);
+        $href = str_replace('&amp;', '&', htmlspecialchars($href));
         return '<input type="hidden" id="WPSL_href" value="' . $href . '" />';
     }
 
