@@ -61,7 +61,7 @@ class WP_shipping_labels {
      * Activate plugin
      */
     public function activate() {
-
+        // TODO: Add default values for document size
     }
 
     /**
@@ -75,7 +75,7 @@ class WP_shipping_labels {
      * Uninstall plugin
      */
     public function uninstall() {
-
+        // TODO: Remove DB values
     }
 
     /**
