@@ -4,7 +4,10 @@ if (!defined( 'ABSPATH' )) {
     exit("Direct access denied.");
 }
 
+require_once(__DIR__ . '/../Views/WPSL_settings.php');
+require_once(__DIR__ . '/../Views/WPSL_shop_order.php');
 require_once(__DIR__ . '/../Views/WPSL_printing.php');
+
 require_once(__DIR__ . '/../Models/WPSL_ShippingLabel.php');
 
 /**
@@ -17,7 +20,165 @@ class WPSL_Controller
      */
     public function __construct() {
         add_action('add_meta_boxes', [$this, 'addMetaBox']);
-        add_action('admin_init', [$this, 'addPrintingWindow']);
+
+        add_action('admin_init', [$this, 'initAdmin']);
+        add_action('admin_menu', [$this, 'addSettingsPage']);
+    }
+
+    /**
+     * Initialize Admin related assets
+     */
+    public function initAdmin() {
+        $this->configSettingsPage();
+        $this->addPrintingWindow();
+    }
+
+    private function configSettingsPage() {
+
+        $optionGroup = 'WPSL_settings';
+
+        $page = 'WPSL_settings';
+
+        $sender_section = 'WPSL_settings_sender';
+
+        register_setting($optionGroup, 'sender_company');
+        register_setting($optionGroup, 'sender_firstName');
+        register_setting($optionGroup, 'sender_lastName');
+        register_setting($optionGroup, 'sender_address');
+        register_setting($optionGroup, 'sender_postCode');
+        register_setting($optionGroup, 'sender_city');
+        register_setting($optionGroup, 'sender_state');
+        register_setting($optionGroup, 'sender_country');
+
+        add_settings_section(
+            $sender_section,
+            'Sender information',
+            '',
+            $page
+        );
+
+
+        add_settings_field(
+            'WPSL_settings_sender_company',
+            'Company name:',
+            'WPSL_settings::getSenderInput',
+            $page,
+            $sender_section,
+            [
+                'type' => 'text',
+                'name' => 'company',
+                'required' => true
+            ]
+        );
+
+        add_settings_field(
+            'WPSL_settings_sender_firstName',
+            'First name (optional):',
+            'WPSL_settings::getSenderInput',
+            $page,
+            $sender_section,
+            [
+                'type' => 'text',
+                'name' => 'firstName'
+            ]
+        );
+
+        add_settings_field(
+            'WPSL_settings_sender_lastName',
+            'Last name (optional):',
+            'WPSL_settings::getSenderInput',
+            $page,
+            $sender_section,
+            [
+                'type' => 'text',
+                'name' => 'lastName'
+            ]
+        );
+
+        add_settings_field(
+            'WPSL_settings_sender_address',
+            'Address:',
+            'WPSL_settings::getSenderInput',
+            $page,
+            $sender_section,
+            [
+                'type' => 'text',
+                'name' => 'address',
+                'required' => true
+            ]
+        );
+
+        add_settings_field(
+            'WPSL_settings_sender_postCode',
+            'Post code:',
+            'WPSL_settings::getSenderInput',
+            $page,
+            $sender_section,
+            [
+                'type' => 'number',
+                'name' => 'postCode',
+                'required' => true
+            ]
+        );
+
+        add_settings_field(
+            'WPSL_settings_sender_city',
+            'City:',
+            'WPSL_settings::getSenderInput',
+            $page,
+            $sender_section,
+            [
+                'type' => 'text',
+                'name' => 'city',
+                'required' => true
+            ]
+        );
+
+        add_settings_field(
+            'WPSL_settings_sender_state',
+            'State (optional):',
+            'WPSL_settings::getSenderInput',
+            $page,
+            $sender_section,
+            [
+                'type' => 'text',
+                'name' => 'state'
+            ]
+        );
+
+        add_settings_field(
+            'WPSL_settings_sender_country',
+            'Country',
+            'WPSL_settings::getSenderInput',
+            $page,
+            $sender_section,
+            [
+                'type' => 'text',
+                'name' => 'country',
+                'required' => true
+            ]
+        );
+
+
+    }
+
+    public function addSettingsPage() {
+
+        $options = [
+            'title' => 'WPSL settings',
+            'menu_title' => 'WPSL settings',
+            'capability' => 'manage_options',
+            'menu_slug' => 'WPSL_settings',
+            'callback' => 'WPSL_settings::getSettingsPage'
+        ];
+
+        add_options_page(
+            $options['title'],
+            $options['menu_title'],
+            $options['capability'],
+            $options['menu_slug'],
+            $options['callback']
+        );
     }
 
     /**
@@ -77,15 +238,13 @@ class WPSL_Controller
             'customFieldCount' => $customFieldCount
         ];
 
-        require_once(__DIR__ . '/../Views/WPSL_shop_order.php');
-
         WPSL_shop_order::getWPSLMetaBox($options);
     }
 
     /**
      * Creates window where PDF is shown on
      */
-    public function addPrintingWindow() {
+    private function addPrintingWindow() {
 
         if (!isset($_GET['printWPSL'])) {
             return;
