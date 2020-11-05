@@ -126,7 +126,7 @@ class WPSL_settings_controller
 
         add_settings_field(
             'WPSL_sender_country',
-            'Country',
+            'Country:',
             [$this, 'getInput'],
             $page,
             $sender_section,
@@ -141,7 +141,7 @@ class WPSL_settings_controller
          */
         add_settings_field(
             'WPSL_pdf_width',
-            'PDF width 50-500 (mm):',
+            'Label width (mm):',
             [$this, 'getInput'],
             $page,
             $pdf_section,
@@ -155,7 +155,7 @@ class WPSL_settings_controller
 
         add_settings_field(
             'WPSL_pdf_height',
-            'PDF height 50-500 (mm):',
+            'Label height (mm):',
             [$this, 'getInput'],
             $page,
             $pdf_section,
@@ -169,7 +169,7 @@ class WPSL_settings_controller
 
         add_settings_field(
             'WPSL_pdf_fontFamily',
-            'PDF font family',
+            'Font family',
             [$this, 'getInput'],
             $page,
             $pdf_section,
