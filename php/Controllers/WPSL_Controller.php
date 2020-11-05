@@ -66,8 +66,7 @@ class WPSL_Controller
             $sender_section,
             [
                 'type' => 'text',
-                'name' => 'company',
-                'required' => true
+                'name' => 'company'
             ]
         );
 
@@ -103,8 +102,7 @@ class WPSL_Controller
             $sender_section,
             [
                 'type' => 'text',
-                'name' => 'address',
-                'required' => true
+                'name' => 'address'
             ]
         );
 
@@ -116,8 +114,7 @@ class WPSL_Controller
             $sender_section,
             [
                 'type' => 'number',
-                'name' => 'postCode',
-                'required' => true
+                'name' => 'postCode'
             ]
         );
 
@@ -129,8 +126,7 @@ class WPSL_Controller
             $sender_section,
             [
                 'type' => 'text',
-                'name' => 'city',
-                'required' => true
+                'name' => 'city'
             ]
         );
 
@@ -154,8 +150,7 @@ class WPSL_Controller
             $sender_section,
             [
                 'type' => 'text',
-                'name' => 'country',
-                'required' => true
+                'name' => 'country'
             ]
         );
 

@@ -29,12 +29,10 @@ class WPSL_settings
         $type = $args['type'] ?? 'text';
         $name = $args['name'] ?? null;
 
-        $required = isset($args['required']) ? 'required' : null;
-
         if (!isset($name)) { return; }
 
         $name = 'WPSL_sender_' . $name;
 
-        echo '<input type="' . $type . '" name="' . $name . '" value="' . get_option($name) . '" ' . $required . '>';
+        echo '<input type="' . $type . '" name="' . $name . '" value="' . get_option($name) . '">';
     }
 }
