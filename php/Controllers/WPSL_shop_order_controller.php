@@ -15,14 +15,18 @@ class WPSL_shop_order_controller
      * Call WordPress actions
      */
     public function __construct() {
-        add_action('add_meta_boxes', [$this, 'addMetaBox']);
+        add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
+    }
+
+    public function add_meta_boxes() {
+        $this->addMetaBox();
     }
 
     /**
      * Add meta box to shop_order page
      * Main interface of the plugin
      */
-    public function addMetaBox() {
+    private function addMetaBox() {
 
         /**
          * Meta box contents
