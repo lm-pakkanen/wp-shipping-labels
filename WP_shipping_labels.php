@@ -52,8 +52,9 @@ class WP_shipping_labels {
      * Start controller
      */
     private function startControllers() {
-        new WPSL_Controller();
         new WPSL_settings_controller();
+        new WPSL_shop_order_controller();
+        new WPSL_printing_controller();
     }
 
     /**
