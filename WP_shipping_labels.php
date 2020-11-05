@@ -35,15 +35,15 @@ class WP_shipping_labels {
         register_deactivation_hook(__FILE__, 'deactivate');
         register_uninstall_hook(__FILE__, 'uninstall');
 
-        add_action('init', [$this, 'initAssets']);
+        add_action('init', [$this, 'init']);
 
         $this->startControllers();
     }
 
     /**
-     * Initialize assets
+     * Initialize plugin
      */
-    function initAssets() {
+    function init() {
         $this->addScripts();
         $this->addCss();
     }
