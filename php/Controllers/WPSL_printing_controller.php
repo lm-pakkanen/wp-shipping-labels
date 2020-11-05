@@ -143,6 +143,8 @@ class WPSL_printing_controller
                 'pdfFontSize' => !empty(get_option('WPSL_pdf_fontSize')) ? get_option('WPSL_pdf_fontSize') : null,
             ];
 
+            var_dump($settings);die();
+
             try {
 
                 $label = new WPSL_ShippingLabel($options, $settings);

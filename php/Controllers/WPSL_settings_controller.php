@@ -32,6 +32,7 @@ class WPSL_settings_controller
         $page = 'WPSL_settings';
 
         $sender_section = 'WPSL_settings_sender';
+        $pdf_section = 'WPSL_settings_pdf';
 
         register_setting($optionGroup, 'WPSL_sender_company');
         register_setting($optionGroup, 'WPSL_sender_firstName');
@@ -42,6 +43,9 @@ class WPSL_settings_controller
         register_setting($optionGroup, 'WPSL_sender_state');
         register_setting($optionGroup, 'WPSL_sender_country');
 
+        register_setting($optionGroup, 'WPSL_pdf_width');
+        register_setting($optionGroup, 'WPSL_pdf_height');
+
         add_settings_section(
             $sender_section,
             'Sender information',
@@ -49,108 +53,144 @@ class WPSL_settings_controller
             $page
         );
 
+        add_settings_section(
+            $pdf_section,
+            'PDF settings',
+            '',
+            $page
+        );
 
+
+        /**
+         * Sender fields start
+         */
         add_settings_field(
-            'WPSL_settings_sender_company',
+            'WPSL_sender_company',
             'Company name:',
-            [$this, 'getSenderInput'],
+            [$this, 'getInput'],
             $page,
             $sender_section,
             [
                 'type' => 'text',
-                'name' => 'company'
+                'name' => 'sender_company'
             ]
         );
 
         add_settings_field(
-            'WPSL_settings_sender_firstName',
-            'First name (optional):',
-            [$this, 'getSenderInput'],
-            $page,
-            $sender_section,
-            [
-                'type' => 'text',
-                'name' => 'firstName'
-            ]
-        );
-
-        add_settings_field(
-            'WPSL_settings_sender_lastName',
-            'Last name (optional):',
-            [$this, 'getSenderInput'],
-            $page,
-            $sender_section,
-            [
-                'type' => 'text',
-                'name' => 'lastName'
-            ]
-        );
-
-        add_settings_field(
-            'WPSL_settings_sender_address',
+            'WPSL_sender_address',
             'Address:',
-            [$this, 'getSenderInput'],
+            [$this, 'getInput'],
             $page,
             $sender_section,
             [
                 'type' => 'text',
-                'name' => 'address'
+                'name' => 'sender_address'
             ]
         );
 
         add_settings_field(
-            'WPSL_settings_sender_postCode',
+            'WPSL_sender_postCode',
             'Post code:',
-            [$this, 'getSenderInput'],
+            [$this, 'getInput'],
             $page,
             $sender_section,
             [
                 'type' => 'number',
-                'name' => 'postCode'
+                'name' => 'sender_postCode'
             ]
         );
 
         add_settings_field(
-            'WPSL_settings_sender_city',
+            'WPSL_sender_city',
             'City:',
-            [$this, 'getSenderInput'],
+            [$this, 'getInput'],
             $page,
             $sender_section,
             [
                 'type' => 'text',
-                'name' => 'city'
+                'name' => 'sender_city'
             ]
         );
 
         add_settings_field(
-            'WPSL_settings_sender_state',
+            'WPSL_sender_state',
             'State (optional):',
-            [$this, 'getSenderInput'],
+            [$this, 'getInput'],
             $page,
             $sender_section,
             [
                 'type' => 'text',
-                'name' => 'state'
+                'name' => 'sender_state'
             ]
         );
 
         add_settings_field(
-            'WPSL_settings_sender_country',
+            'WPSL_sender_country',
             'Country',
-            [$this, 'getSenderInput'],
+            [$this, 'getInput'],
             $page,
             $sender_section,
             [
                 'type' => 'text',
-                'name' => 'country'
+                'name' => 'sender_country'
+            ]
+        );
+
+        /**
+         * PDF fields start
+         */
+        add_settings_field(
+            'WPSL_pdf_width',
+            'PDF width 50-500 (mm):',
+            [$this, 'getInput'],
+            $page,
+            $pdf_section,
+            [
+                'type' => 'number',
+                'name' => 'pdf_width',
+                'min' => 50,
+                'max' => 500
+            ]
+        );
+
+        add_settings_field(
+            'WPSL_pdf_height',
+            'PDF height 50-500 (mm):',
+            [$this, 'getInput'],
+            $page,
+            $pdf_section,
+            [
+                'type' => 'number',
+                'name' => 'pdf_height',
+                'min' => 50,
+                'max' => 500
+            ]
+        );
+
+        add_settings_field(
+            'WPSL_pdf_fontFamily',
+            'PDF font family',
+            [$this, 'getInput'],
+            $page,
+            $pdf_section,
+            [
+                'type' => 'select',
+                'name' => 'pdf_fontFamily',
+                'options' => [
+                    'Courier',
+                    'Helvetica',
+                    'Arial',
+                    'Symbol',
+                    'ZapfDingbats'
+                ]
             ]
         );
 
     }
 
-    public function getSenderInput($args) {
+    public function getInput($args) {
         try {
-            WPSL_settings::getSenderInput($args);
+            WPSL_settings::getInput($args);
         } catch (Exception $exception) { die($exception->getMessage());}
     }
 

@@ -27,20 +27,58 @@ class WPSL_settings
         echo '</div>';
     }
 
-    public static function getSenderInput(array $args){
+    public static function getInput(array $args){
 
         $type = $args['type'] ?? 'text';
         $name = $args['name'] ?? null;
+        $min = $args['min'] ?? null;
+        $max = $args['max'] ?? null;
+        $options = $args['options'] ?? null;
 
         if (!isset($name) || !$name) {
             throw new Exception('Required parameter "Name" missing.');
         }
 
         $type = htmlspecialchars($type);
-        $name = 'WPSL_sender_' . htmlspecialchars($name);
+        $name = 'WPSL_' . htmlspecialchars($name);
         $value = htmlspecialchars(get_option($name));
 
-        echo '<input type="' . $type . '" name="' . $name . '" value="' . $value . '">';
+        switch ($type) {
+
+            case 'number':
+                $min = htmlspecialchars($min);
+                $max = htmlspecialchars($max);
+
+                echo '<input type="' . $type . '" name="' . $name . '" value="' . $value . '" min="' . $min . '" max="' . $max .'">';
+                break;
+
+            case 'select':
+
+                if (!isset($options) || !is_array($options)) { return; }
+
+                echo '<select name="' . $name . '" value="test">';
+
+                forEach($options as $option) {
+
+                    $option = htmlspecialchars($option);
+
+                    echo '<option value="' . $option . '">' . $option . '</option>';
+                }
+
+                echo '</select>';
+
+                break;
+
+            default:
+                echo '<input type="' . $type . '" name="' . $name . '" value="' . $value . '">';
+                break;
+        }
+
+    }
+
+    public static function getPdfInput(array $args) {
+
+
 
     }
 }

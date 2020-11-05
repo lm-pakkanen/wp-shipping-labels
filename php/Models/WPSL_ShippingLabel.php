@@ -47,9 +47,12 @@ class WPSL_ShippingLabel
 
         if (isset($this->settings['pdfWidth'], $this->settings['pdfHeight'])) {
 
-            if (!is_int($this->settings['pdfWidth'] || !is_int($this->settings['pdfHeight']))) {
-                return false;
-            }
+            $width = (int) $this->settings['pdfWidth'];
+            $height = (int) $this->settings['pdfHeight'];
+
+            if (!is_int($width) || !is_int($height)) { return false; }
+
+            if ($width < 50 || $width > 500 || $height < 50 || $height > 500) { return false; }
 
         }
 
