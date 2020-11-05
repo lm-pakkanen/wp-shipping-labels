@@ -77,9 +77,9 @@ class WPSL_ShippingLabel
         $this->pdf->Cell(0,5, iconv('utf-8', 'cp1252', $to['company']), 0, 1);
         $this->pdf->Cell(0,5, iconv('utf-8', 'cp1252', $name), 0, 1);
         $this->pdf->Cell(0,5, iconv('utf-8', 'cp1252', $to['address']), 0, 1);
-        $this->pdf->Cell(0,5, iconv('utf-8', 'cp1252', $to['postCode'] . ', ' . $to['city']), 0, 1);
+        $this->pdf->Cell(0,5, iconv('utf-8', 'cp1252', $to['postCode'] . ' ' . $to['city']), 0, 1);
 
-        if (isset($to['state'])) {
+        if (isset($to['state']) && $to['state']) {
             $this->pdf->Cell(0,5, iconv('utf-8', 'cp1252', $to['state']), 0, 1);
         }
 
@@ -104,7 +104,7 @@ class WPSL_ShippingLabel
         $this->pdf->Cell(0,5, iconv('utf-8', 'cp1252', $from['address']), 0, 1);
         $this->pdf->Cell(0,5, iconv('utf-8', 'cp1252', $from['postCode'] . ', ' . $from['city']), 0, 1);
 
-        if (isset($from['state'])) {
+        if (isset($from['state']) && $from['state']) {
             $this->pdf->Cell(0,5, iconv('utf-8', 'cp1252', $from['state']), 0, 1);
         }
 

@@ -330,13 +330,23 @@ class WPSL_Controller
             ];
 
             $from = [
-                'company' => 'Harriot Software',
-                'address' => 'Yo-Kylä 11 B 14',
-                'postCode' => '20540',
-                'city' => 'Turku',
-                'state' => null,
-                'country' => 'Finland'
+                'company' => get_option('WPSL_sender_company') ?? '',
+                'address' => get_option('WPSL_sender_address') ?? '',
+                'postCode' => get_option('WPSL_sender_postCode') ?? '',
+                'city' => get_option('WPSL_sender_city') ?? '',
+                'state' => get_option('WPSL_sender_state') ?? '',
+                'country' => get_option('WPSL_sender_country') ?? ''
             ];
+
+            if (!($from['company'] && $from['address'] && $from['postCode'] && $from['city'] && $from['country']))
+            {
+                WPSL_printing::showFatalError(
+                    new Exception(
+                        'Sender information missing in settings. Please fill in the required fields.'
+                    )
+                );
+                die();
+            }
 
             $customFields = json_decode(stripslashes($_GET['customFields']), true) ?? null;
 
