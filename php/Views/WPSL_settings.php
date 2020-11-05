@@ -33,7 +33,7 @@ class WPSL_settings
         $type = $args['type'] ?? 'text';
         $name = $args['name'] ?? null;
 
-        if (!isset($name)) { return; }
+        if (!isset($name) || !$name) { return; }
 
         $name = 'WPSL_sender_' . $name;
 
