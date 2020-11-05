@@ -17,6 +17,7 @@ if (!defined( 'ABSPATH' )) {
 }
 
 require_once(__DIR__ . '/php/Controllers/WPSL_Controller.php');
+require_once(__DIR__ . '/php/Controllers/WPSL_settings_controller.php');
 
 /**
  * Main class
@@ -34,7 +35,7 @@ class WP_shipping_labels {
 
         add_action('init', [$this, 'initAssets']);
 
-        $this->startController();
+        $this->startControllers();
     }
 
     /**
@@ -48,8 +49,9 @@ class WP_shipping_labels {
     /**
      * Start controller
      */
-    private function startController() {
+    private function startControllers() {
         new WPSL_Controller();
+        new WPSL_settings_controller();
     }
 
     /**
