@@ -16,8 +16,10 @@ if (!defined( 'ABSPATH' )) {
     exit("Direct access denied.");
 }
 
-require_once(__DIR__ . '/php/Controllers/WPSL_Controller.php');
-require_once(__DIR__ . '/php/Controllers/WPSL_settings_controller.php');
+/**
+ * Require controllers
+ */
+require_once(__DIR__ . '/php/Controllers/index.php');
 
 /**
  * Main class
