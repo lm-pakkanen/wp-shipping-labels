@@ -66,18 +66,16 @@ class WPSL_shop_order_controller
          */
         $href =  wp_nonce_url(admin_url('?printWPSL&orderID=' . $order->get_id()), 'printWPSL');
 
-        /**
-         * Number of custom fields to present
-         * In the meta box
-         */
-        $customFieldCount = 3;
-
         $options = [
             'href' => $href,
-            'customFieldCount' => $customFieldCount
+            'customFieldCount' => -1
         ];
 
-        WPSL_shop_order::getWPSLMetaBox($options);
+        try {
+            WPSL_shop_order::getWPSLMetaBox($options);
+        } catch (Exception $exception) {
+            echo $exception->getMessage();
+        }
     }
 
 }

@@ -9,6 +9,10 @@ class WPSL_shop_order
 
     public static function getWPSLMetaBox(array $options) {
 
+        if (!isset($options) || empty($options)) {
+            throw new Exception('Required parameter "options" missing.');
+        }
+
         echo self::getUrlInput($options['href']);
         echo self::getIsPriorityInput();
         echo self::getCustomFieldInputs($options['customFieldCount']);
@@ -21,6 +25,7 @@ class WPSL_shop_order
      * @return string
      */
     private static function getUrlInput(string $href) {
+        $href = htmlspecialchars($href);
         return '<input type="hidden" id="WPSL_href" value="' . $href . '" />';
     }
 
@@ -45,7 +50,16 @@ class WPSL_shop_order
      * @param int $count
      * @return string
      */
-    private static function getCustomFieldInputs(int $count) {
+    private static function getCustomFieldInputs(int $count = 3) {
+
+        if (!is_int($count)) {
+            throw new Exception('Required parameter "Count" invalid.');
+        }
+
+        /**
+         * Limit custom field count to 0-3
+         */
+        if (!($count > 0 && $count < 3)) { $count = 3; }
 
         $field = '';
 

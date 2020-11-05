@@ -53,7 +53,7 @@ class WPSL_settings_controller
         add_settings_field(
             'WPSL_settings_sender_company',
             'Company name:',
-            'WPSL_settings::getSenderInput',
+            [$this, 'getSenderInput'],
             $page,
             $sender_section,
             [
@@ -65,7 +65,7 @@ class WPSL_settings_controller
         add_settings_field(
             'WPSL_settings_sender_firstName',
             'First name (optional):',
-            'WPSL_settings::getSenderInput',
+            [$this, 'getSenderInput'],
             $page,
             $sender_section,
             [
@@ -77,7 +77,7 @@ class WPSL_settings_controller
         add_settings_field(
             'WPSL_settings_sender_lastName',
             'Last name (optional):',
-            'WPSL_settings::getSenderInput',
+            [$this, 'getSenderInput'],
             $page,
             $sender_section,
             [
@@ -89,7 +89,7 @@ class WPSL_settings_controller
         add_settings_field(
             'WPSL_settings_sender_address',
             'Address:',
-            'WPSL_settings::getSenderInput',
+            [$this, 'getSenderInput'],
             $page,
             $sender_section,
             [
@@ -101,7 +101,7 @@ class WPSL_settings_controller
         add_settings_field(
             'WPSL_settings_sender_postCode',
             'Post code:',
-            'WPSL_settings::getSenderInput',
+            [$this, 'getSenderInput'],
             $page,
             $sender_section,
             [
@@ -113,7 +113,7 @@ class WPSL_settings_controller
         add_settings_field(
             'WPSL_settings_sender_city',
             'City:',
-            'WPSL_settings::getSenderInput',
+            [$this, 'getSenderInput'],
             $page,
             $sender_section,
             [
@@ -125,7 +125,7 @@ class WPSL_settings_controller
         add_settings_field(
             'WPSL_settings_sender_state',
             'State (optional):',
-            'WPSL_settings::getSenderInput',
+            [$this, 'getSenderInput'],
             $page,
             $sender_section,
             [
@@ -137,7 +137,7 @@ class WPSL_settings_controller
         add_settings_field(
             'WPSL_settings_sender_country',
             'Country',
-            'WPSL_settings::getSenderInput',
+            [$this, 'getSenderInput'],
             $page,
             $sender_section,
             [
@@ -146,7 +146,12 @@ class WPSL_settings_controller
             ]
         );
 
+    }
 
+    public function getSenderInput($args) {
+        try {
+            WPSL_settings::getSenderInput($args);
+        } catch (Exception $exception) { die($exception->getMessage());}
     }
 
     /**

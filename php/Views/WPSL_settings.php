@@ -25,7 +25,6 @@ class WPSL_settings
         echo '</form>';
 
         echo '</div>';
-
     }
 
     public static function getSenderInput(array $args){
@@ -33,10 +32,15 @@ class WPSL_settings
         $type = $args['type'] ?? 'text';
         $name = $args['name'] ?? null;
 
-        if (!isset($name) || !$name) { return; }
+        if (!isset($name) || !$name) {
+            throw new Exception('Required parameter "Name" missing.');
+        }
 
-        $name = 'WPSL_sender_' . $name;
+        $type = htmlspecialchars($type);
+        $name = 'WPSL_sender_' . htmlspecialchars($name);
+        $value = htmlspecialchars(get_option($name));
 
-        echo '<input type="' . $type . '" name="' . $name . '" value="' . get_option($name) . '">';
+        echo '<input type="' . $type . '" name="' . $name . '" value="' . $value . '">';
+
     }
 }
