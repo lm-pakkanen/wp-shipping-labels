@@ -60,21 +60,21 @@ class WP_shipping_labels {
     /**
      * Activate plugin
      */
-    private function activate() {
+    public function activate() {
 
     }
 
     /**
      * Deactivate plugin
      */
-    private function deactivate() {
+    public function deactivate() {
 
     }
 
     /**
      * Uninstall plugin
      */
-    private function uninstall() {
+    public function uninstall() {
 
     }
 
