@@ -22,6 +22,9 @@ class WPSL_settings_controller
         $this->addSettingsPage();
     }
 
+    /**
+     * Configure settings page
+     */
     private function configSettingsPage() {
 
         $optionGroup = 'WPSL_settings';
@@ -146,6 +149,9 @@ class WPSL_settings_controller
 
     }
 
+    /**
+     * Add settings page to control panel menu
+     */
     private function addSettingsPage() {
 
         $options = [

@@ -11,9 +11,7 @@ require_once(__DIR__ . '/../Views/WPSL_shop_order.php');
  */
 class WPSL_shop_order_controller
 {
-    /**
-     * Call WordPress actions
-     */
+
     public function __construct() {
         add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
     }
@@ -33,7 +31,7 @@ class WPSL_shop_order_controller
          */
         $contents = [
             $this,
-            'getPrintingMetaBoxContent'
+            'getMetaBoxContent'
         ];
 
         $screens = ['shop_order'];
@@ -52,9 +50,9 @@ class WPSL_shop_order_controller
     }
 
     /**
-     * Gets meta box content
+     * Get meta box content
      */
-    public function getPrintingMetaBoxContent() {
+    public function getMetaBoxContent() {
 
         global $post;
 
