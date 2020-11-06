@@ -4,7 +4,9 @@ if (!defined( 'ABSPATH' )) {
     exit("Direct access denied.");
 }
 
-require_once(__DIR__ . '/../../libs/fpdf182/fpdf.php');
+if (!class_exists('FPDF')) {
+    require_once(__DIR__ . '/../../libs/fpdf182/fpdf.php');
+}
 
 /**
  * Shipping label class
