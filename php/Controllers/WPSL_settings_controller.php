@@ -45,9 +45,14 @@ class WPSL_settings_controller
 
         register_setting($optionGroup, 'WPSL_pdf_width');
         register_setting($optionGroup, 'WPSL_pdf_height');
+
         register_setting($optionGroup, 'WPSL_pdf_fontFamily');
         register_setting($optionGroup, 'WPSL_pdf_fontStyle');
         register_setting($optionGroup, 'WPSL_pdf_fontSize');
+
+        register_setting($optionGroup, 'WPSL_pdf_fontFamily_title');
+        register_setting($optionGroup, 'WPSL_pdf_fontStyle_title');
+        register_setting($optionGroup, 'WPSL_pdf_fontSize_title');
 
         add_settings_section(
             $sender_section,
@@ -188,8 +193,22 @@ class WPSL_settings_controller
         );
 
         add_settings_field(
+            'WPSL_pdf_fontSize_title',
+            'Title fontsize',
+            [$this, 'getInput'],
+            $page,
+            $pdf_section,
+            [
+                'type' => 'number',
+                'name' => 'pdf_fontSize_title',
+                'min' => 6,
+                'max' => 35
+            ]
+        );
+
+        add_settings_field(
             'WPSL_pdf_fontSize',
-            'Fontsize',
+            'Content fontsize',
             [$this, 'getInput'],
             $page,
             $pdf_section,
