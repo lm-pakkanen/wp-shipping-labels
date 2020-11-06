@@ -180,9 +180,9 @@ class WPSL_settings_controller
                 'type' => 'select',
                 'name' => 'pdf_fontFamily',
                 'options' => [
+                    'Times',
                     'Helvetica',
-                    'Courier',
-                    'Arial',
+                    'Courier'
                 ]
             ]
         );

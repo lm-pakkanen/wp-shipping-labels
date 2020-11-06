@@ -41,9 +41,9 @@ class WPSL_ShippingLabel
         // TODO: Separate to Validator class
 
         $valid_fonts = [
+            'Times',
             'Helvetica',
-            'Courier',
-            'Arial',
+            'Courier'
         ];
 
         $valid_font_styles = [
