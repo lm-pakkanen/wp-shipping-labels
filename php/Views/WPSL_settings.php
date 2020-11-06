@@ -56,13 +56,13 @@ class WPSL_settings
 
                 if (!isset($options) || !is_array($options)) { return; }
 
-                echo '<select name="' . $name . '" value="test">';
+                echo '<select name="' . $name . '">';
 
                 forEach($options as $option) {
 
                     $option = htmlspecialchars($option);
 
-                    echo '<option value="' . $option . '">' . $option . '</option>';
+                    echo '<option value="' . $option . '" ' . selected(get_option($name), $option) . '>' . $option . '</option>';
                 }
 
                 echo '</select>';

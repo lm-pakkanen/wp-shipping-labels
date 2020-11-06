@@ -45,6 +45,9 @@ class WPSL_settings_controller
 
         register_setting($optionGroup, 'WPSL_pdf_width');
         register_setting($optionGroup, 'WPSL_pdf_height');
+        register_setting($optionGroup, 'WPSL_pdf_fontFamily');
+        register_setting($optionGroup, 'WPSL_pdf_fontStyle');
+        register_setting($optionGroup, 'WPSL_pdf_fontSize');
 
         add_settings_section(
             $sender_section,
