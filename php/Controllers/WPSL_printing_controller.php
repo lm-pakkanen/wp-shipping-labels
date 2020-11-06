@@ -140,7 +140,10 @@ class WPSL_printing_controller
                 'pdfHeight' => get_option('WPSL_pdf_height'),
                 'pdfFontFamily' => get_option('WPSL_pdf_fontFamily'),
                 'pdfFontStyle' => get_option('WPSL_pdf_fontStyle'),
-                'pdfFontSize' => get_option('WPSL_pdf_fontSize')
+                'pdfFontSize' => get_option('WPSL_pdf_fontSize'),
+                'pdfFontFamily_title' => get_option('WPSL_pdf_fontFamily_title'),
+                'pdfFontStyle_title' => get_option('WPSL_pdf_fontStyle_title'),
+                'pdfFontSize_title' => get_option('WPSL_pdf_fontSize_title')
             ];
 
             if (!($settings['pdfWidth'] && $settings['pdfHeight'])) {
