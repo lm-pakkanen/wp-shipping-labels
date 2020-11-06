@@ -31,9 +31,9 @@ class WP_shipping_labels {
      */
     public function __construct()
     {
-        register_activation_hook(__FILE__, 'activate');
-        register_deactivation_hook(__FILE__, 'deactivate');
-        register_uninstall_hook(__FILE__, 'uninstall');
+        register_activation_hook(__FILE__, [__CLASS__, 'activate']);
+        register_deactivation_hook(__FILE__, [__CLASS__, 'deactivate']);
+        register_uninstall_hook(__FILE__, [__CLASS__, 'uninstall']);
 
         add_action('init', [$this, 'init']);
 
@@ -60,22 +60,29 @@ class WP_shipping_labels {
     /**
      * Activate plugin
      */
-    public function activate() {
-        // TODO: Add default values for document size
+    public static function activate() {
+
+        if (empty(get_option('WPSL_pdf_width')) || empty(get_option('WPSL_pdf_height'))) {
+
+            update_option('WPSL_pdf_width', 107);
+            update_option('WPSL_pdf_height', 225);
+
+        }
+
     }
 
     /**
      * Deactivate plugin
      */
-    public function deactivate() {
+    public static function deactivate() {
 
     }
 
     /**
      * Uninstall plugin
      */
-    public function uninstall() {
-        // TODO: Remove DB values
+    public static function uninstall() {
+
     }
 
     /**
