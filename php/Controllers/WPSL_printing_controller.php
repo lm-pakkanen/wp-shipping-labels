@@ -136,12 +136,23 @@ class WPSL_printing_controller
             ];
 
             $settings = [
-                'pdfWidth' => !empty(get_option('WPSL_pdf_width')) ? get_option('WPSL_pdf_width') : null,
-                'pdfHeight' => !empty(get_option('WPSL_pdf_height')) ? get_option('WPSL_pdf_height') : null,
-                'pdfFontFamily' => !empty(get_option('WPSL_pdf_fontFamily')) ? get_option('WPSL_pdf_fontFamily') : null,
-                'pdfFontStyle' => !empty(get_option('WPSL_pdf_fontStyle')) ? get_option('WPSL_pdf_fontStyle') : null,
-                'pdfFontSize' => !empty(get_option('WPSL_pdf_fontSize')) ? get_option('WPSL_pdf_fontSize') : null,
+                'pdfWidth' => get_option('WPSL_pdf_width'),
+                'pdfHeight' => get_option('WPSL_pdf_height'),
+                'pdfFontFamily' => get_option('WPSL_pdf_fontFamily'),
+                'pdfFontStyle' => get_option('WPSL_pdf_fontStyle'),
+                'pdfFontSize' => get_option('WPSL_pdf_fontSize')
             ];
+
+            if (!($settings['pdfWidth'] && $settings['pdfHeight'])) {
+                WPSL_printing::showFatalError(new Exception('Required parameters "PDF width | height" missing.'));
+            }
+
+            /**
+             * Replace empty strings with null
+             */
+            $settings = array_map(function($value) {
+                return $value === '' ? null : $value;
+            }, $settings);
 
             try {
 

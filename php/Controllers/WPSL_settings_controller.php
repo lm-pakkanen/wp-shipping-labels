@@ -180,11 +180,9 @@ class WPSL_settings_controller
                 'type' => 'select',
                 'name' => 'pdf_fontFamily',
                 'options' => [
-                    'Courier',
                     'Helvetica',
+                    'Courier',
                     'Arial',
-                    'Symbol',
-                    'ZapfDingbats'
                 ]
             ]
         );
