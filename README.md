@@ -10,11 +10,11 @@ Add your company's information in: CP -> Settings -> WPSL settings.
 
 Once the information has been set, navigate to: CP -> WooCommerce -> Orders.
 
-Open any order. On the right hand side of the Order controls will be a box labeled "Print shipping label".
+Open any order. On the right-hand side of the Order controls will be a box labeled "Print shipping label".
 If the order was requested with Priority shipping, click the "PRIORITY shipping" checkbox.
 Additionally, you may enter any custom data into the custom fields.
 
-Clic the button at the bottom, and volá.
+Click the button at the bottom, and volá.
 
 
 
