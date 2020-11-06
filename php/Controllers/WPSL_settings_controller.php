@@ -187,6 +187,20 @@ class WPSL_settings_controller
             ]
         );
 
+        add_settings_field(
+            'WPSL_pdf_fontSize',
+            'Fontsize',
+            [$this, 'getInput'],
+            $page,
+            $pdf_section,
+            [
+                'type' => 'number',
+                'name' => 'pdf_fontSize',
+                'min' => 6,
+                'max' => 35
+            ]
+        );
+
     }
 
     public function getInput($args) {
