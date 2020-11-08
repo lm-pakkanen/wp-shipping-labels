@@ -14,16 +14,22 @@ class WPSL_settings_controller
         add_action('admin_menu', [$this, 'admin_menu']);
     }
 
+    /**
+     * Admin_init hook
+     */
     public function admin_init() {
         $this->configSettingsPage();
     }
 
+    /**
+     * Admin_menu hook
+     */
     public function admin_menu() {
         $this->addSettingsPage();
     }
 
     /**
-     * Configure settings page
+     * Configures settings page
      */
     private function configSettingsPage() {
 
@@ -72,6 +78,7 @@ class WPSL_settings_controller
         /**
          * Sender fields start
          */
+
         add_settings_field(
             'WPSL_sender_company',
             'Company name:',
@@ -147,6 +154,7 @@ class WPSL_settings_controller
         /**
          * PDF fields start
          */
+
         add_settings_field(
             'WPSL_pdf_width',
             'Label width (mm):',
@@ -222,6 +230,10 @@ class WPSL_settings_controller
 
     }
 
+    /**
+     * Gets input field for settings field
+     * @param $args
+     */
     public function getInput($args) {
         try {
             WPSL_settings::getInput($args);
@@ -229,7 +241,7 @@ class WPSL_settings_controller
     }
 
     /**
-     * Add settings page to control panel menu
+     * Adds settings page to control panel menu
      */
     private function addSettingsPage() {
 

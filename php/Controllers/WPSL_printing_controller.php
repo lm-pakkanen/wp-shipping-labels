@@ -15,12 +15,15 @@ class WPSL_printing_controller
         add_action('admin_init', [$this, 'admin_init']);
     }
 
+    /**
+     * Admin_init hook
+     */
     public function admin_init() {
         $this->addPrintingWindow();
     }
 
     /**
-     * Creates window where PDF is shown on
+     * Creates PDF viewing window
      */
     private function addPrintingWindow() {
 
@@ -175,6 +178,10 @@ class WPSL_printing_controller
         }
     }
 
+    /**
+     * Checks if user is allowed to view page
+     * @return string[]
+     */
     private function isUserAllowed() {
 
         global $current_user;

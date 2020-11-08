@@ -16,19 +16,10 @@ if (!defined( 'ABSPATH' )) {
     exit("Direct access denied.");
 }
 
-/**
- * Require controllers
- */
 require_once(__DIR__ . '/php/Controllers/index.php');
 
-/**
- * Main class
- */
 class WP_shipping_labels {
 
-    /**
-     * Register hooks
-     */
     public function __construct()
     {
         register_activation_hook(__FILE__, [__CLASS__, 'activate']);
@@ -41,7 +32,7 @@ class WP_shipping_labels {
     }
 
     /**
-     * Initialize plugin
+     * Init hook
      */
     function init() {
         $this->addScripts();
@@ -49,7 +40,7 @@ class WP_shipping_labels {
     }
 
     /**
-     * Start controller
+     * Starts controllers
      */
     private function startControllers() {
         new WPSL_settings_controller();
@@ -84,21 +75,21 @@ class WP_shipping_labels {
     }
 
     /**
-     * Deactivate plugin
+     * Deactivates plugin
      */
     public static function deactivate() {
 
     }
 
     /**
-     * Uninstall plugin
+     * Uninstalls plugin
      */
     public static function uninstall() {
 
     }
 
     /**
-     * Enqueue JavaScript
+     * Enqueues JavaScript
      */
     function addScripts() {
         wp_register_script('WPSLScript', plugins_url( '/js/WPSL.js', __FILE__), ['jquery']);
@@ -106,7 +97,7 @@ class WP_shipping_labels {
     }
 
     /**
-     * Enqueue CSS
+     * Enqueues CSS
      */
     function addCss() {
         wp_register_style('WPSLCss', plugins_url( '/css/index.css', __FILE__));

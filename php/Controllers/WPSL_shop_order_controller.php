@@ -6,9 +6,6 @@ if (!defined( 'ABSPATH' )) {
 
 require_once(__DIR__ . '/../Views/WPSL_shop_order.php');
 
-/**
- * "Shop_order" page controller
- */
 class WPSL_shop_order_controller
 {
 
@@ -16,19 +13,18 @@ class WPSL_shop_order_controller
         add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
     }
 
+    /**
+     * Add_meta_boxes hook
+     */
     public function add_meta_boxes() {
         $this->addMetaBox();
     }
 
     /**
-     * Add meta box to shop_order page
-     * Main interface of the plugin
+     * Adds meta box to shop_order page
      */
     private function addMetaBox() {
 
-        /**
-         * Meta box contents
-         */
         $contents = [
             $this,
             'getMetaBoxContent'
@@ -36,9 +32,6 @@ class WPSL_shop_order_controller
 
         $screens = ['shop_order'];
 
-        /**
-         * Create box
-         */
         add_meta_box(
             'woocommerce-order-WPSL',
             __('Print shipping label'),
@@ -50,15 +43,12 @@ class WPSL_shop_order_controller
     }
 
     /**
-     * Get meta box content
+     * Gets meta box content
      */
     public function getMetaBoxContent() {
 
         global $post;
 
-        /**
-         * Create order object by post ID
-         */
         $order = new WC_Order($post->ID);
 
         /**

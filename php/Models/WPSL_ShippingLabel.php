@@ -8,10 +8,6 @@ if (!class_exists('FPDF')) {
     require_once(__DIR__ . '/../../libs/fpdf182/fpdf.php');
 }
 
-/**
- * Shipping label class
- * Handles creation of shipping label PDF
- */
 class WPSL_ShippingLabel
 {
 
@@ -23,19 +19,13 @@ class WPSL_ShippingLabel
         $this->options = $options;
         $this->settings = $settings;
 
-        if (!$this->isSettingsValid()) {
-            throw new Exception('PDF settings contain invalid values.');
-        }
-
-        if (!$this->isOptionsValid()) {
-            throw new Exception('PDF options contain invalid values.');
-        }
+        $this->validate();
 
         $this->createPDF();
     }
 
     /**
-     * Fill $this->pdf with data
+     * Generates PDF with given inputs
      */
     public function generatePDF() {
 
@@ -51,12 +41,16 @@ class WPSL_ShippingLabel
         }
     }
 
+    /**
+     * Gets PDF file created by $this
+     * @return string
+     */
     public function getPDF() {
         return $this->pdf->Output();
     }
 
     /**
-     * Create $this->pdf
+     * Creates $this->pdf
      */
     private function createPDF() {
 
@@ -76,7 +70,7 @@ class WPSL_ShippingLabel
     }
 
     /**
-     * Add PRIORITY field to PDF
+     * Adds PRIORITY field to PDF
      */
     private function addPriorityField() {
 
@@ -87,6 +81,9 @@ class WPSL_ShippingLabel
 
     }
 
+    /**
+     * Adds 'to' fields to PDF
+     */
     private function addToFields() {
 
         $to = $this->options['receiver'];
@@ -96,11 +93,6 @@ class WPSL_ShippingLabel
         $this->setDefaultFont();
 
         $this->addSpacer($this->getScaledSpacing(5));
-
-
-        /**
-         * Add TO fields
-         */
 
         $this->setTitleFont();
 
@@ -135,13 +127,12 @@ class WPSL_ShippingLabel
         $this->addSpacer($this->getScaledSpacing(15));
     }
 
+    /**
+     * Adds 'from' fields to PDF
+     */
     private function addFromFields() {
 
         $from = $this->options['sender'];
-
-        /**
-         * Add FROM fields
-         */
 
         $this->setTitleFont();
 
@@ -167,13 +158,13 @@ class WPSL_ShippingLabel
         $this->addSpacer($this->getScaledSpacing(25));
     }
 
+    /**
+     * Adds optional fields to PDF
+     */
     private function addCustomFields() {
 
         $customFields = $this->options['customFields'];
 
-        /**
-         * Add optional fields
-         */
         forEach($customFields as $field) {
 
             if (isset($field) && $field) {
@@ -199,6 +190,9 @@ class WPSL_ShippingLabel
         }
     }
 
+    /**
+     * Sets default PDF field font
+     */
     private function setDefaultFont() {
 
         $fontFamily = $this->settings['pdfFontFamily'] ?? 'Times';
@@ -209,6 +203,9 @@ class WPSL_ShippingLabel
 
     }
 
+    /**
+     * Sets PDF font to title field font
+     */
     private function setTitleFont() {
 
         $fontFamily = $this->settings['pdfFontFamily_title'] ?? 'Times';
@@ -219,6 +216,9 @@ class WPSL_ShippingLabel
 
     }
 
+    /**
+     * Sets PDF font to PRIORITY field font
+     */
     private function setPriorityFont() {
 
         $fontFamily = $this->settings['pdfFontFamily_priority'] ?? 'Times';
@@ -229,10 +229,20 @@ class WPSL_ShippingLabel
 
     }
 
+    /**
+     * Adds spacer cell
+     * @param int $height
+     */
     private function addSpacer(int $height) {
         $this->pdf->Cell(0, $height, '', 0,1);
     }
 
+    /**
+     * Scales input cell height or spacer height
+     * @param int $spacing
+     * @param string $affected_by
+     * @return int
+     */
     private function getScaledSpacing(int $spacing, string $affected_by = 'pdfFontSize') {
 
         if ($affected_by === 'pdfFontSize') {
@@ -259,6 +269,22 @@ class WPSL_ShippingLabel
         }
 
         return (int) floor($spacing * $scale);
+    }
+
+    /**
+     * Validates values used by class
+     * @throws Exception
+     */
+    private function validate() {
+
+        if (!$this->isSettingsValid()) {
+            throw new Exception('PDF settings contain invalid values.');
+        }
+
+        if (!$this->isOptionsValid()) {
+            throw new Exception('PDF options contain invalid values.');
+        }
+
     }
 
     /**

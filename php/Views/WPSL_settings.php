@@ -6,6 +6,9 @@ if (!defined( 'ABSPATH' )) {
 
 class WPSL_settings
 {
+    /**
+     * Get settings page
+     */
     public static function getSettingsPage() {
 
         echo '<div class="WPSL_settings">';
@@ -27,6 +30,11 @@ class WPSL_settings
         echo '</div>';
     }
 
+    /**
+     * Get input field
+     * @param array $args
+     * @throws Exception
+     */
     public static function getInput(array $args){
 
         $type = $args['type'] ?? 'text';
@@ -76,9 +84,4 @@ class WPSL_settings
 
     }
 
-    public static function getPdfInput(array $args) {
-
-
-
-    }
 }

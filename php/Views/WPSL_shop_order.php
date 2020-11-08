@@ -7,6 +7,11 @@ if (!defined( 'ABSPATH' )) {
 class WPSL_shop_order
 {
 
+    /**
+     * Get MetaBox for WPSL
+     * @param array $options
+     * @throws Exception
+     */
     public static function getWPSLMetaBox(array $options) {
 
         if (!isset($options) || empty($options)) {
@@ -49,6 +54,7 @@ class WPSL_shop_order
      * Add custom fields in a loop
      * @param int $count
      * @return string
+     * @throws Exception
      */
     private static function getCustomFieldInputs(int $count = 3) {
 
@@ -76,6 +82,10 @@ class WPSL_shop_order
         return $field;
     }
 
+    /**
+     * Get submit button for MetaBox
+     * @return string
+     */
     private static function getSubmitButton() {
         return '<button type="submit" id="WPSL_submit" title="Print shipping label">Print shipping label</button>';
     }
