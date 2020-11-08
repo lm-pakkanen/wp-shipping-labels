@@ -35,81 +35,6 @@ class WPSL_ShippingLabel
     }
 
     /**
-     * Validates $this->settings
-     * @return bool
-     */
-    private function isSettingsValid() {
-
-        // TODO: Separate to Validator class
-
-        $valid_fonts = [
-            'Times',
-            'Helvetica',
-            'Courier'
-        ];
-
-        $valid_font_styles = [
-            '',
-            'B',
-            'I',
-            'U'
-        ];
-
-        if (isset($this->settings['pdfWidth'], $this->settings['pdfHeight'])) {
-
-            $width = (int) $this->settings['pdfWidth'];
-            $height = (int) $this->settings['pdfHeight'];
-
-            if (!is_int($width) || !is_int($height)) { return false; }
-
-            if ($width < 50 || $width > 500 || $height < 50 || $height > 500) { return false; }
-
-        }
-
-        if (isset($this->settings['pdfFontFamily'])) {
-
-            if (!in_array($this->settings['pdfFontFamily'], $valid_fonts)) { return false; }
-
-        }
-
-        if (isset($this->settings['pdfFontStyle'])) {
-
-            $style = str_split($this->settings['pdfFontStyle']);
-
-            forEach($style as $letter) {
-
-                if (!in_array($letter, $valid_font_styles)) { return false; }
-
-            }
-        }
-
-        if (isset($this->settings['pdfFontSize'])) {
-
-            $fontSize = (int) $this->settings['pdfFontSize'];
-
-            if (!is_int($fontSize)) { return false; }
-
-            if ($fontSize < 6 || $fontSize > 35) { return false; }
-
-        }
-
-        return true;
-    }
-
-    /**
-     * Validates $this->options
-     * @return bool
-     */
-    private function isOptionsValid() {
-
-        // TODO: Validate OPTIONS
-
-        // TODO: Separate to Validator class
-
-        return true;
-    }
-
-    /**
      * Fill $this->pdf with data
      */
     public function generatePDF() {
@@ -157,7 +82,7 @@ class WPSL_ShippingLabel
 
         $this->setPriorityFont();
 
-        $this->pdf->Cell(0, $this->getScaledSpacing(10), iconv('utf-8', 'cp1252', 'PRIORITY'),0,1, 'C');
+        $this->pdf->Cell(0, $this->getScaledSpacing(10, "pdf_fontSize_title"), iconv('utf-8', 'cp1252', 'PRIORITY'),0,1, 'C');
         $this->addSpacer($this->getScaledSpacing(18));
 
     }
@@ -181,7 +106,7 @@ class WPSL_ShippingLabel
 
         if (isset($to['company']) && $to['company']) {
 
-            $this->pdf->Cell(0,$this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $to['company']), 0, 1);
+            $this->pdf->Cell(0,$this->getScaledSpacing(5, "pdf_fontSize_title"), iconv('utf-8', 'cp1252', $to['company']), 0, 1);
 
             $this->setDefaultFont();
 
@@ -189,9 +114,9 @@ class WPSL_ShippingLabel
 
         $this->pdf->Cell(0,$this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $name), 0, 1);
 
-        $this->addSpacer($this->getScaledSpacing(5));
-
         $this->setDefaultFont();
+
+        $this->addSpacer($this->getScaledSpacing(5));
 
         $this->pdf->Cell(0,$this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $to['address']), 0, 1);
         $this->pdf->Cell(0,$this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $to['postCode'] . ' ' . $to['city']), 0, 1);
@@ -220,11 +145,11 @@ class WPSL_ShippingLabel
 
         $this->setTitleFont();
 
-        $this->pdf->Cell(0,$this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $from['company']), 0, 1);
-
-        $this->addSpacer($this->getScaledSpacing(5));
+        $this->pdf->Cell(0,$this->getScaledSpacing(5, "pdf_fontSize_title"), iconv('utf-8', 'cp1252', $from['company']), 0, 1);
 
         $this->setDefaultFont();
+
+        $this->addSpacer($this->getScaledSpacing(5));
 
         $this->pdf->Cell(0,$this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $from['address']), 0, 1);
         $this->pdf->Cell(0,$this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $from['postCode'] . ' ' . $from['city']), 0, 1);
@@ -257,7 +182,7 @@ class WPSL_ShippingLabel
 
                     $this->setTitleFont();
 
-                    $this->pdf->Cell(0,$this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $field['title']), 0, 1);
+                    $this->pdf->Cell(0,$this->getScaledSpacing(5, "pdf_fontSize_title"), iconv('utf-8', 'cp1252', $field['title']), 0, 1);
 
                 }
 
@@ -265,7 +190,7 @@ class WPSL_ShippingLabel
 
                     $this->setDefaultFont();
 
-                    $this->pdf->Cell(0,$this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $field['value']), 0, 1);
+                    $this->pdf->Multicell(0, $this->getScaledSpacing(4), iconv('utf-8', 'cp1252', $field['value']), 0, 1);
 
                     $this->addSpacer($this->getScaledSpacing(5));
 
@@ -334,5 +259,111 @@ class WPSL_ShippingLabel
         }
 
         return (int) floor($spacing * $scale);
+    }
+
+    /**
+     * Validates $this->settings
+     * @return bool
+     */
+    private function isSettingsValid() {
+
+        $valid_fonts = [
+            'Times',
+            'Helvetica',
+            'Courier'
+        ];
+
+        $valid_font_styles = [
+            '',
+            'B',
+            'I',
+            'U'
+        ];
+
+        if (isset($this->settings['pdfWidth'], $this->settings['pdfHeight'])) {
+
+            $width = (int) $this->settings['pdfWidth'];
+            $height = (int) $this->settings['pdfHeight'];
+
+            if (!is_int($width) || !is_int($height)) { return false; }
+
+            if ($width < 50 || $width > 500 || $height < 50 || $height > 500) { return false; }
+
+        }
+
+        if (isset($this->settings['pdfFontFamily'])) {
+
+            if (!in_array($this->settings['pdfFontFamily'], $valid_fonts)) { return false; }
+
+        }
+
+        if (isset($this->settings['pdfFontStyle'])) {
+
+            $style = str_split($this->settings['pdfFontStyle']);
+
+            forEach($style as $letter) {
+
+                if (!in_array($letter, $valid_font_styles)) { return false; }
+
+            }
+        }
+
+        if (isset($this->settings['pdfFontSize'])) {
+
+            $fontSize = (int) $this->settings['pdfFontSize'];
+
+            if (!is_int($fontSize)) { return false; }
+
+            if ($fontSize < 6 || $fontSize > 35) { return false; }
+
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates $this->options
+     * @return bool
+     */
+    private function isOptionsValid() {
+
+        $receiver = $this->options['receiver'];
+
+        if (isset($receiver) && !empty($receiver)) {
+
+            $required_fields = [
+                $receiver['firstName'],
+                $receiver['lastName'],
+                $receiver['address'],
+                $receiver['postCode'],
+                $receiver['city'],
+                $receiver['country']
+            ];
+
+            forEach($required_fields as $field) {
+                if (!isset($field) || empty($field)) { return false; }
+            }
+
+        }
+
+        $sender = $this->options['sender'];
+
+        if (isset($sender) && !empty($sender)) {
+
+            $required_fields = [
+                $sender['company'],
+                $sender['address'],
+                $sender['postCode'],
+                $sender['city'],
+                $sender['country']
+            ];
+
+            forEach($required_fields as $field) {
+                if (!isset($field) || empty($field)) { return false; }
+            }
+
+        }
+
+        return true;
     }
 }
