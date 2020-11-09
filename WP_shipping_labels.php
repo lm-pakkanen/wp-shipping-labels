@@ -60,16 +60,28 @@ class WP_shipping_labels {
 
         }
 
+        if (empty(get_option('WPSL_pdf_spaceBeforeFrom'))) {
+            update_option('WPSL_pdf_spaceBeforeFrom', 35);
+        }
+
         if (empty(get_option('WPSL_pdf_fontFamily'))) {
             update_option('WPSL_pdf_fontFamily', 'Times');
         }
 
-        if (empty(get_option('WPSL_pdf_fontSize_title'))) {
-            update_option('WPSL_pdf_fontSize_title', 14);
+        if (empty(get_option('WPSL_pdf_sender_title_fontSize'))) {
+            update_option('WPSL_pdf_sender_title_fontSize', 16);
         }
 
-        if (empty(get_option('WPSL_pdf_fontSize'))) {
-            update_option('WPSL_pdf_fontSize', 12);
+        if (empty(get_option('WPSL_pdf_sender_content_fontSize'))) {
+            update_option('WPSL_pdf_sender_content_fontSize', 12);
+        }
+
+        if (empty(get_option('WPSL_pdf_receiver_title_fontSize'))) {
+            update_option('WPSL_pdf_receiver_title_fontSize', 22);
+        }
+
+        if (empty(get_option('WPSL_pdf_receiver_content_fontSize'))) {
+            update_option('WPSL_pdf_receiver_content_fontSize', 16);
         }
 
     }

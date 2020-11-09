@@ -14,6 +14,12 @@ class WPSL_ShippingLabel
     private WPSL_FPDF $pdf;
     private array $options, $settings;
 
+    /**
+     * WPSL_ShippingLabel constructor.
+     * @param $options
+     * @param $settings
+     * @throws Exception
+     */
     public function __construct($options, $settings)
     {
         $this->options = $options;
@@ -52,11 +58,12 @@ class WPSL_ShippingLabel
 
     /**
      * Creates $this->pdf
+     * @throws Exception
      */
     private function createPDF() {
 
-        $width = (int) $this->settings['pdfWidth'] ?? null;
-        $height = ((int) $this->settings['pdfHeight']) ?? null;
+        $width = (int) $this->settings['width'] ?? null;
+        $height = ((int) $this->settings['height']) ?? null;
 
         $size = [
             $width ?? 107,
@@ -74,18 +81,20 @@ class WPSL_ShippingLabel
 
     /**
      * Adds PRIORITY field to PDF
+     * @throws Exception
      */
     private function addPriorityField() {
 
         $this->setPriorityFont();
 
-        $this->pdf->Cell(0, $this->getScaledSpacing(10, "pdf_fontSize_title"), iconv('utf-8', 'cp1252', 'PRIORITY'),0,1, 'C');
-        $this->addSpacer($this->getScaledSpacing(7, "pdf_fontSize_title"));
+        $this->pdf->Cell(0, 10, iconv('utf-8', 'cp1252', 'PRIORITY'),0,1, 'C');
+        $this->addSpacer(7);
 
     }
 
     /**
      * Adds 'to' fields to PDF
+     * @throws Exception
      */
     private function addToFields() {
 
@@ -94,25 +103,31 @@ class WPSL_ShippingLabel
 
         $name = $to['firstName'] . ' ' . $to['lastName'];
 
-        $this->setDefaultFont('B', 12);
+        $this->setFont(null,  'B', 12);
 
-        $this->pdf->MultiCell(0,$this->getScaledSpacing(4), iconv('utf-8', 'cp1252', $toFieldLabel), 0, 1);
+        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'receiver_title'), iconv('utf-8', 'cp1252', $toFieldLabel), 0, 1);
 
-        $this->addSpacer($this->getScaledSpacing(1));
+        $this->addSpacer($this->getScaledSpacing(1, 'receiver_title'));
 
-        $this->setTitleFont();
+        $this->setFont('receiver_title', 'B');
 
         if (isset($to['company']) && $to['company']) {
 
-            $this->pdf->MultiCell(0,$this->getScaledSpacing(4, "pdf_fontSize_title"), iconv('utf-8', 'cp1252', $to['company']), 0, 1);
+            $this->pdf->MultiCell(0,$this->getScaledSpacing(8, "receiver_title"), iconv('utf-8', 'cp1252', $to['company']), 0, 1);
 
-            $this->setDefaultFont();
+            $this->setFont('receiver_content');
+
+            $this->pdf->MultiCell(0,$this->getScaledSpacing(6), iconv('utf-8', 'cp1252', $name), 0, 1);
+
+        } else {
+
+            $this->pdf->MultiCell(0,$this->getScaledSpacing(8), iconv('utf-8', 'cp1252', $name), 0, 1);
+            $this->addSpacer($this->getScaledSpacing(1, 'receiver_title'));
 
         }
 
-        $this->pdf->MultiCell(0,$this->getScaledSpacing(8), iconv('utf-8', 'cp1252', $name), 0, 1);
 
-        $this->setDefaultFont();
+        $this->setFont('receiver_content');
 
         $this->pdf->MultiCell(0,$this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $to['address']), 0, 1);
         $this->pdf->MultiCell(0,$this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $to['postCode'] . ' ' . $to['city']), 0, 1);
@@ -131,33 +146,34 @@ class WPSL_ShippingLabel
 
     /**
      * Adds 'from' fields to PDF
+     * @throws Exception
      */
     private function addFromFields() {
 
         $from = $this->options['sender'];
         $fromFieldLabel = $this->options['fromFieldLabel'] ?? 'From:';
 
-        $this->addSpacer($this->getScaledSpacing($this->settings['pdfSpaceBeforeFrom']));
+        $this->addSpacer($this->settings['spaceBeforeFrom']);
 
-        $this->setDefaultFont('B', 10);
+        $this->setFont(null, 'B', 10);
 
-        $this->pdf->MultiCell(0,$this->getScaledSpacing(4), iconv('utf-8', 'cp1252', $fromFieldLabel), 0, 1);
+        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', $fromFieldLabel), 0, 1);
 
-        $this->addSpacer($this->getScaledSpacing(1));
+        $this->addSpacer($this->getScaledSpacing(1, 'sender_content'));
 
-        $this->setScaledDefaultFont();
+        $this->setFont('sender_content');
 
-        $this->pdf->MultiCell(0,$this->getScaledSpacing(4), iconv('utf-8', 'cp1252', $from['company']), 0, 1);
-        $this->pdf->MultiCell(0,$this->getScaledSpacing(4), iconv('utf-8', 'cp1252', $from['address']), 0, 1);
-        $this->pdf->MultiCell(0,$this->getScaledSpacing(4), iconv('utf-8', 'cp1252', $from['postCode'] . ' ' . $from['city']), 0, 1);
+        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', $from['company']), 0, 1);
+        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', $from['address']), 0, 1);
+        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', $from['postCode'] . ' ' . $from['city']), 0, 1);
 
         if (isset($from['state']) && $from['state']) {
 
-            $this->pdf->MultiCell(0,$this->getScaledSpacing(4), iconv('utf-8', 'cp1252', $from['state'] . ', ' . strtoupper($from['country'])), 0, 1);
+            $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', $from['state'] . ', ' . strtoupper($from['country'])), 0, 1);
 
         } else {
 
-            $this->pdf->MultiCell(0,$this->getScaledSpacing(4), iconv('utf-8', 'cp1252', strtoupper($from['country'])), 0, 1);
+            $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', strtoupper($from['country'])), 0, 1);
 
         }
 
@@ -165,6 +181,7 @@ class WPSL_ShippingLabel
 
     /**
      * Adds optional fields to PDF
+     * @throws Exception
      */
     private function addCustomFields() {
 
@@ -178,17 +195,17 @@ class WPSL_ShippingLabel
 
                 if (isset($field['title']) && $field['title']) {
 
-                    $this->setScaledTitleFont();
+                    $this->setDefaultFont('sender_title');
 
-                    $this->pdf->MultiCell(0,$this->getScaledSpacing(5, "pdf_fontSize_title"), iconv('utf-8', 'cp1252', $field['title']), 0, 1);
+                    $this->pdf->MultiCell(0,$this->getScaledSpacing(5, "sender_title"), iconv('utf-8', 'cp1252', $field['title']), 0, 1);
 
                 }
 
                 if (isset($field['value']) && $field['value']) {
 
-                    $this->setScaledDefaultFont();
+                    $this->setFont('sender_content');
 
-                    $this->pdf->Multicell(0, $this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $field['value']), 0, 1);
+                    $this->pdf->Multicell(0, $this->getScaledSpacing(5, "sender_content"), iconv('utf-8', 'cp1252', $field['value']), 0, 1);
 
                 }
             }
@@ -196,70 +213,77 @@ class WPSL_ShippingLabel
     }
 
     /**
-     * Sets default PDF field font
-     * @param string|null $style
+     * @param string|null $settingName
+     * @param string $fontStyle
      * @param int|null $fontSize
+     * @throws Exception
      */
-    private function setDefaultFont(string $style = null, int $fontSize = null) {
+    private function setFont(string $settingName = null, string $fontStyle = '', int $fontSize = null) {
 
-        $fontFamily = $this->settings['pdfFontFamily'] ?? 'Times';
+        $fontFamily = $this->settings['fontFamily'] ?? 'Times';
 
-        $fontStyle = isset($style) ? $style : $this->settings['pdfFontStyle'] ?? null;
-        $fontSize = isset($fontSize) ? $fontSize : $this->settings['pdfFontSize'] ?? 12;
+        $internalFontSize = null;
 
-        $this->pdf->SetFont($fontFamily, $fontStyle, $fontSize);
+        $valid_font_styles = [
+            '',
+            'B',
+            'I',
+            'U'
+        ];
 
-    }
+        if (isset($settingName) && !empty($settingName)) {
 
-    private function setScaledDefaultFont(string $style = null, int $fontSize = null) {
+            $internalFontSize = $this->settings[$settingName . '_fontSize'] ?? null;
 
-        $fontFamily = $this->settings['pdfFontFamily'] ?? 'Times';
+            if (!$internalFontSize) {
+                throw new Exception('Fontsize not found for: ' . htmlspecialchars($settingName));
+            } else if ((int) $internalFontSize < 6 || (int) $internalFontSize > 35) {
+                throw new Exception('Fontsize is invalid for: ' . htmlspecialchars($settingName));
+            }
 
-        $fontStyle = isset($style) ? $style : $this->settings['pdfFontStyle'] ?? null;
-        $fontSize = isset($fontSize) ? $fontSize : $this->settings['pdfFontSize'] ?? 12;
+        } else if (isset($fontSize) && !empty($fontSize)) {
 
-        $fontSize = $this->getScaledFontSize($fontSize, 0.75);
+            $internalFontSize = $fontSize;
 
-        $this->pdf->SetFont($fontFamily, $fontStyle, $fontSize);
+            if ((int) $internalFontSize < 6 || (int) $internalFontSize > 35) {
+                throw new Exception('Fontsize invalid: ' . htmlspecialchars($internalFontSize));
+            }
 
+        } else {
+            throw new Exception('Fontsize was not provided.');
+        }
+
+        if (isset($fontStyle) && !empty($fontStyle)) {
+
+            $styles = str_split($fontStyle);
+
+            forEach($styles as $style) {
+
+                if (!in_array($style, $valid_font_styles)) {
+                    throw new Exception('Invalid font style: ' . htmlspecialchars($style));
+                }
+
+            }
+        }
+
+        $this->pdf->SetFont($fontFamily, $fontStyle, $internalFontSize);
     }
 
     /**
-     * Sets PDF font to title field font
+     * Sets default PDF field font
+     * Uses receiver_content as default size
+     * @throws Exception
      */
-    private function setTitleFont() {
-
-        $fontFamily = $this->settings['pdfFontFamily_title'] ?? 'Times';
-        $fontStyle = $this->settings['pdfFontStyle_title'] ?? 'B';
-        $fontSize = $this->settings['pdfFontSize_title'] ?? 14;
-
-        $this->pdf->SetFont($fontFamily, $fontStyle, $fontSize);
-
-    }
-
-    private function setScaledTitleFont() {
-
-        $fontFamily = $this->settings['pdfFontFamily_title'] ?? 'Times';
-        $fontStyle = $this->settings['pdfFontStyle_title'] ?? 'B';
-        $fontSize = $this->settings['pdfFontSize_title'] ?? 14;
-
-        $fontSize = $this->getScaledFontSize($fontSize,0.75);
-
-        $this->pdf->SetFont($fontFamily, $fontStyle, $fontSize);
-
+    private function setDefaultFont() {
+        $this->SetFont('receiver_content');
     }
 
     /**
      * Sets PDF font to PRIORITY field font
+     * @throws Exception
      */
     private function setPriorityFont() {
-
-        $fontFamily = $this->settings['pdfFontFamily_priority'] ?? 'Times';
-        $fontStyle = $this->settings['pdfFontStyle_priority'] ?? 'B';
-        $fontSize = $this->settings['pdfFontSize_priority'] ?? 22;
-
-        $this->pdf->SetFont($fontFamily, $fontStyle, $fontSize);
-
+        $this->SetFont(null, 'B', 25);
     }
 
     /**
@@ -275,47 +299,47 @@ class WPSL_ShippingLabel
      * @param int $spacing
      * @param string $affected_by
      * @return int
+     * @throws Exception
      */
-    private function getScaledSpacing(int $spacing, string $affected_by = 'pdfFontSize') {
+    private function getScaledSpacing(int $spacing, string $affected_by = 'receiver_content') {
 
-        if ($affected_by === 'pdfFontSize') {
+        $defaultFontSize = null;
 
-            $default_fontSize = 12;
-            $fontSize = $this->settings['pdfFontSize'] ?? $default_fontSize;
+        switch ($affected_by) {
 
-        } else if ($affected_by === 'pdfFontSize_title') {
+            case 'receiver_title':
+                $defaultFontSize = 22;
+                break;
 
-            $default_fontSize = 14;
-            $fontSize = $this->settings['pdfFontSize_title'] ?? $default_fontSize;
+            case 'receiver_content';
+            case 'sender_title':
+                $defaultFontSize = 16;
+                break;
 
-        } else {
-            $fontSize = 1;
-            $default_fontSize = 1;
+            case 'sender_content':
+                $defaultFontSize = 12;
+                break;
+
+
         }
 
-        if ($fontSize > $default_fontSize) {
-            $scale = $fontSize / $default_fontSize;
-        } else if ($fontSize < $default_fontSize) {
-            $scale = $fontSize / $default_fontSize;
+        $fontSize = $this->settings[$affected_by . '_fontSize'] ?? null;
+
+        if (!$fontSize) {
+            throw new Exception('Fontsize not found for: ' . $affected_by);
+        }
+
+        if ($fontSize !== $defaultFontSize) {
+            $scale = $fontSize / $defaultFontSize;
         } else {
             $scale = 1;
         }
 
-        if ($scale > 1) {
+        if ($scale >= 1) {
             return (int) floor($spacing * $scale);
         } else {
             return (int) ceil($spacing * $scale);
         }
-    }
-
-    private function getScaledFontSize(int $fontSize, float $scale) {
-
-        if ($scale > 1) {
-            return (int) floor($scale * $fontSize);
-        } else {
-            return (int) ceil($scale * $fontSize);
-        }
-
     }
 
     /**
@@ -346,13 +370,6 @@ class WPSL_ShippingLabel
             'Courier'
         ];
 
-        $valid_font_styles = [
-            '',
-            'B',
-            'I',
-            'U'
-        ];
-
         if (isset($this->settings['pdfWidth'], $this->settings['pdfHeight'])) {
 
             $width = (int) $this->settings['pdfWidth'];
@@ -370,16 +387,6 @@ class WPSL_ShippingLabel
 
         }
 
-        if (isset($this->settings['pdfFontStyle'])) {
-
-            $style = str_split($this->settings['pdfFontStyle']);
-
-            forEach($style as $letter) {
-
-                if (!in_array($letter, $valid_font_styles)) { return false; }
-
-            }
-        }
 
         if (isset($this->settings['pdfFontSize'])) {
 
