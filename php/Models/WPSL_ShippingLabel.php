@@ -67,7 +67,7 @@ class WPSL_ShippingLabel
 
         $this->setDefaultFont();
 
-        $this->pdf->SetAutoPageBreak(false);
+        $this->pdf->SetAutoPageBreak(true, 0);
 
     }
 
@@ -166,7 +166,7 @@ class WPSL_ShippingLabel
      */
     private function addCustomFields() {
 
-        $this->addSpacer($this->getScaledSpacing(25));
+        $this->addSpacer($this->getScaledSpacing(5));
 
         $customFields = $this->options['customFields'];
 
@@ -186,7 +186,7 @@ class WPSL_ShippingLabel
 
                     $this->setDefaultFont();
 
-                    $this->pdf->Multicell(0, $this->getScaledSpacing(4), iconv('utf-8', 'cp1252', $field['value']), 0, 1);
+                    $this->pdf->Multicell(0, $this->getScaledSpacing(5), iconv('utf-8', 'cp1252', $field['value']), 0, 1);
 
                     $this->addSpacer($this->getScaledSpacing(5));
 

@@ -76,16 +76,16 @@ class WPSL_shop_order
      * @return string
      * @throws Exception
      */
-    private static function getCustomFieldInputs(int $count = 3) {
+    private static function getCustomFieldInputs(int $count) {
 
-        if (!is_int($count)) {
+        if (!is_int($count) || $count < 0) {
             throw new Exception('Required parameter "Count" invalid.');
         }
 
         /**
          * Limit custom field count to 0-3
          */
-        if (!($count > 0 && $count < 3)) { $count = 3; }
+        if ($count > 3) { $count = 3; }
 
         $field = '';
 
@@ -107,6 +107,6 @@ class WPSL_shop_order
      * @return string
      */
     private static function getSubmitButton() {
-        return '<button type="submit" id="WPSL_submit" title="Print shipping label">Print shipping label</button>';
+        return '<button type="submit" id="WPSL_submit" title="Print shipping label">Print WPSL shipping label</button>';
     }
 }

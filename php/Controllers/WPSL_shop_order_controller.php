@@ -34,7 +34,7 @@ class WPSL_shop_order_controller
 
         add_meta_box(
             'woocommerce-order-WPSL',
-            __('Print shipping label'),
+            __('WPSL Shipping Labels'),
             $contents,
             $screens,
             'side',
@@ -58,7 +58,7 @@ class WPSL_shop_order_controller
 
         $options = [
             'href' => $href,
-            'customFieldCount' => -1
+            'customFieldCount' => 1
         ];
 
         try {
