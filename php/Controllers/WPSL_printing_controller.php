@@ -133,6 +133,8 @@ class WPSL_printing_controller
 
             $options = [
                 'isPriority' => isset($_GET['isPriority']),
+                'toFieldLabel' => $_GET['toFieldLabel'] ?? null,
+                'fromFieldLabel' => $_GET['fromFieldLabel'] ?? null,
                 'receiver' => $to,
                 'sender' => $from,
                 'customFields' => $customFields

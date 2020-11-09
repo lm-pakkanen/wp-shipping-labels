@@ -20,6 +20,7 @@ class WPSL_shop_order
 
         echo self::getUrlInput($options['href']);
         echo self::getIsPriorityInput();
+        echo self::getLabelInputs();
         echo self::getCustomFieldInputs($options['customFieldCount']);
         echo self::getSubmitButton();
     }
@@ -48,6 +49,25 @@ class WPSL_shop_order
         $field .= '</div>';
 
         return $field;
+    }
+
+    /**
+     * Gets 'to' & 'from' fields' label input
+     */
+    private static function getLabelInputs() {
+
+        $field = '';
+
+        $field .= '<div>';
+        $field .= '<label for="WPSL_to">"To" field label:</label>';
+        $field .= '<input type="text" id="WPSL_to" name="WPSL_to" value="To:"/>';
+
+        $field .= '<label for="WPSL_from">"From" field label:</label>';
+        $field .= '<input type="text" id="WPSL_from" name="WPSL_from" value="From:" />';
+        $field .= '</div>';
+
+        return $field;
+
     }
 
     /**
