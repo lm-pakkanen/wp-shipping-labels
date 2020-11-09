@@ -52,6 +52,8 @@ class WPSL_settings_controller
         register_setting($optionGroup, 'WPSL_pdf_width');
         register_setting($optionGroup, 'WPSL_pdf_height');
 
+        register_setting($optionGroup, 'WPSL_pdf_spaceAfterTo');
+
         register_setting($optionGroup, 'WPSL_pdf_fontFamily');
         register_setting($optionGroup, 'WPSL_pdf_fontStyle');
         register_setting($optionGroup, 'WPSL_pdf_fontSize');
@@ -180,6 +182,19 @@ class WPSL_settings_controller
                 'name' => 'pdf_height',
                 'min' => 50,
                 'max' => 500
+            ]
+        );
+
+        add_settings_field(
+            'WPSL_pdf_spaceAfterTo',
+            'Space height after "To" fields (mm):',
+            [$this, 'getInput'],
+            $page,
+            $pdf_section,
+            [
+                'type' => 'number',
+                'name' => 'pdf_spaceAfterTo',
+                'min' => 0
             ]
         );
 

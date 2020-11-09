@@ -148,11 +148,13 @@ class WPSL_printing_controller
                 'pdfFontSize' => get_option('WPSL_pdf_fontSize'),
                 'pdfFontFamily_title' => get_option('WPSL_pdf_fontFamily_title'),
                 'pdfFontStyle_title' => get_option('WPSL_pdf_fontStyle_title'),
-                'pdfFontSize_title' => get_option('WPSL_pdf_fontSize_title')
+                'pdfFontSize_title' => get_option('WPSL_pdf_fontSize_title'),
+                'pdfSpaceAfterTo' => get_option('WPSL_pdf_spaceAfterTo')
             ];
 
             if (!($settings['pdfWidth'] && $settings['pdfHeight'])) {
                 WPSL_printing::showFatalError(new Exception('Required parameters "PDF width | height" missing.'));
+                die();
             }
 
             /**

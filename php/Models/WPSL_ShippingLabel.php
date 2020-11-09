@@ -67,6 +67,8 @@ class WPSL_ShippingLabel
 
         $this->setDefaultFont();
 
+        $this->pdf->SetAutoPageBreak(false);
+
     }
 
     /**
@@ -134,7 +136,7 @@ class WPSL_ShippingLabel
         $from = $this->options['sender'];
         $fromFieldLabel = $this->options['fromFieldLabel'] ?? 'From:';
 
-        $this->addSpacer($this->getScaledSpacing(15));
+        $this->addSpacer($this->getScaledSpacing($this->settings['pdfSpaceAfterTo']));
 
         $this->setDefaultFont('B', 10);
 
@@ -377,6 +379,14 @@ class WPSL_ShippingLabel
 
             if ($fontSize < 6 || $fontSize > 35) { return false; }
 
+        }
+
+        if (isset($this->settings['pdfSpaceAfterTo'])) {
+            $space = (int) $this->settings['pdfSpaceAfterTo'];
+
+            if (!is_int($space)) { return false; }
+
+            if ($space < 0) { return false; }
         }
 
         return true;
