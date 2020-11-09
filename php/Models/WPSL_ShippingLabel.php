@@ -4,14 +4,14 @@ if (!defined( 'ABSPATH' )) {
     exit("Direct access denied.");
 }
 
-if (!class_exists('FPDF')) {
-    require_once(__DIR__ . '/../../libs/fpdf182/fpdf.php');
+if (!class_exists('WPSL_FPDF')) {
+    require_once(__DIR__ . '/../../libs/artifacts/fpdf182/fpdf.php');
 }
 
 class WPSL_ShippingLabel
 {
 
-    private FPDF $pdf;
+    private WPSL_FPDF $pdf;
     private array $options, $settings;
 
     public function __construct($options, $settings)
@@ -62,7 +62,7 @@ class WPSL_ShippingLabel
             $height ?? 225
         ];
 
-        $this->pdf = new FPDF('P', 'mm', $size);
+        $this->pdf = new WPSL_FPDF('P', 'mm', $size);
         $this->pdf->AddPage();
 
         $this->setDefaultFont();
