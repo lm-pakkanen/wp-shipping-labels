@@ -195,9 +195,9 @@ class WPSL_ShippingLabel
 
                 if (isset($field['title']) && $field['title']) {
 
-                    $this->setDefaultFont('sender_title');
+                    $this->setFont(null, 'B', 16);
 
-                    $this->pdf->MultiCell(0,$this->getScaledSpacing(5, "sender_title"), iconv('utf-8', 'cp1252', $field['title']), 0, 1);
+                    $this->pdf->MultiCell(0,$this->getScaledSpacing(5, "sender_content"), iconv('utf-8', 'cp1252', $field['title']), 0, 1);
 
                 }
 
@@ -311,8 +311,7 @@ class WPSL_ShippingLabel
                 $defaultFontSize = 22;
                 break;
 
-            case 'receiver_content';
-            case 'sender_title':
+            case 'receiver_content':
                 $defaultFontSize = 16;
                 break;
 
