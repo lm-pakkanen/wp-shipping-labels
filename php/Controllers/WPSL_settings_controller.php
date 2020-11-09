@@ -255,20 +255,6 @@ class WPSL_settings_controller
         );
 
         add_settings_field(
-            'WPSL_pdf_sender_content_fontSize',
-            '"From" section content fontsize:',
-            [$this, 'getInput'],
-            $page,
-            $section,
-            [
-                'type' => 'number',
-                'name' => 'pdf_sender_content_fontSize',
-                'min' => 6,
-                'max' => 35
-            ]
-        );
-
-        add_settings_field(
             'WPSL_pdf_receiver_title_fontSize',
             '"To" section title fontsize:',
             [$this, 'getInput'],
@@ -291,6 +277,20 @@ class WPSL_settings_controller
             [
                 'type' => 'number',
                 'name' => 'pdf_receiver_content_fontSize',
+                'min' => 6,
+                'max' => 35
+            ]
+        );
+
+        add_settings_field(
+            'WPSL_pdf_sender_content_fontSize',
+            '"From" section content fontsize:',
+            [$this, 'getInput'],
+            $page,
+            $section,
+            [
+                'type' => 'number',
+                'name' => 'pdf_sender_content_fontSize',
                 'min' => 6,
                 'max' => 35
             ]
