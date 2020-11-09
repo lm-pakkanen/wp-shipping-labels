@@ -149,7 +149,7 @@ class WPSL_printing_controller
                 'pdfFontFamily_title' => get_option('WPSL_pdf_fontFamily_title'),
                 'pdfFontStyle_title' => get_option('WPSL_pdf_fontStyle_title'),
                 'pdfFontSize_title' => get_option('WPSL_pdf_fontSize_title'),
-                'pdfSpaceAfterTo' => get_option('WPSL_pdf_spaceAfterTo')
+                'pdfSpaceBeforeFrom' => get_option('WPSL_pdf_spaceBeforeFrom'),
             ];
 
             if (!($settings['pdfWidth'] && $settings['pdfHeight'])) {

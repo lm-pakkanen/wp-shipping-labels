@@ -52,7 +52,7 @@ class WPSL_settings_controller
         register_setting($optionGroup, 'WPSL_pdf_width');
         register_setting($optionGroup, 'WPSL_pdf_height');
 
-        register_setting($optionGroup, 'WPSL_pdf_spaceAfterTo');
+        register_setting($optionGroup, 'WPSL_pdf_spaceBeforeFrom');
 
         register_setting($optionGroup, 'WPSL_pdf_fontFamily');
         register_setting($optionGroup, 'WPSL_pdf_fontStyle');
@@ -186,21 +186,21 @@ class WPSL_settings_controller
         );
 
         add_settings_field(
-            'WPSL_pdf_spaceAfterTo',
-            'Space height after "To" fields (mm):',
+            'WPSL_pdf_spaceBeforeFrom',
+            'Space height before "From" fields (mm):',
             [$this, 'getInput'],
             $page,
             $pdf_section,
             [
                 'type' => 'number',
-                'name' => 'pdf_spaceAfterTo',
+                'name' => 'pdf_spaceBeforeFrom',
                 'min' => 0
             ]
         );
 
         add_settings_field(
             'WPSL_pdf_fontFamily',
-            'Font family',
+            'Font family:',
             [$this, 'getInput'],
             $page,
             $pdf_section,
@@ -217,7 +217,7 @@ class WPSL_settings_controller
 
         add_settings_field(
             'WPSL_pdf_fontSize_title',
-            'Title fontsize',
+            'Title fontsize:',
             [$this, 'getInput'],
             $page,
             $pdf_section,
@@ -231,7 +231,7 @@ class WPSL_settings_controller
 
         add_settings_field(
             'WPSL_pdf_fontSize',
-            'Content fontsize',
+            'Content fontsize:',
             [$this, 'getInput'],
             $page,
             $pdf_section,
