@@ -111,7 +111,6 @@ class WPSL_settings_controller
 
         register_setting($optionGroup, 'WPSL_pdf_fontFamily');
 
-        register_setting($optionGroup, 'WPSL_pdf_sender_title_fontSize');
         register_setting($optionGroup, 'WPSL_pdf_sender_content_fontSize');
 
         register_setting($optionGroup, 'WPSL_pdf_receiver_title_fontSize');
@@ -252,20 +251,6 @@ class WPSL_settings_controller
                     'Helvetica',
                     'Courier'
                 ]
-            ]
-        );
-
-        add_settings_field(
-            'WPSL_pdf_sender_title_fontSize',
-            '"From" section title fontsize:',
-            [$this, 'getInput'],
-            $page,
-            $section,
-            [
-                'type' => 'number',
-                'name' => 'pdf_sender_title_fontSize',
-                'min' => 6,
-                'max' => 35
             ]
         );
 

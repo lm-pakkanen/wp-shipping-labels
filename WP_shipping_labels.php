@@ -68,10 +68,6 @@ class WP_shipping_labels {
             update_option('WPSL_pdf_fontFamily', 'Times');
         }
 
-        if (empty(get_option('WPSL_pdf_sender_title_fontSize'))) {
-            update_option('WPSL_pdf_sender_title_fontSize', 16);
-        }
-
         if (empty(get_option('WPSL_pdf_sender_content_fontSize'))) {
             update_option('WPSL_pdf_sender_content_fontSize', 12);
         }
