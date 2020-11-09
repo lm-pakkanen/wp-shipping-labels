@@ -157,23 +157,23 @@ class WPSL_ShippingLabel
 
         $this->setFont(null, 'B', 10);
 
-        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', $fromFieldLabel), 0, 1);
+        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'receiver_content'), iconv('utf-8', 'cp1252', $fromFieldLabel), 0, 1);
 
-        $this->addSpacer($this->getScaledSpacing(1, 'sender_content'));
+        $this->addSpacer($this->getScaledSpacing(1, 'receiver_content'));
 
         $this->setFont('sender_content');
 
-        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', $from['company']), 0, 1);
-        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', $from['address']), 0, 1);
-        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', $from['postCode'] . ' ' . $from['city']), 0, 1);
+        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'receiver_content'), iconv('utf-8', 'cp1252', $from['company']), 0, 1);
+        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'receiver_content'), iconv('utf-8', 'cp1252', $from['address']), 0, 1);
+        $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'receiver_content'), iconv('utf-8', 'cp1252', $from['postCode'] . ' ' . $from['city']), 0, 1);
 
         if (isset($from['state']) && $from['state']) {
 
-            $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', $from['state'] . ', ' . strtoupper($from['country'])), 0, 1);
+            $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'receiver_content'), iconv('utf-8', 'cp1252', $from['state'] . ', ' . strtoupper($from['country'])), 0, 1);
 
         } else {
 
-            $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'sender_content'), iconv('utf-8', 'cp1252', strtoupper($from['country'])), 0, 1);
+            $this->pdf->MultiCell(0,$this->getScaledSpacing(5, 'receiver_content'), iconv('utf-8', 'cp1252', strtoupper($from['country'])), 0, 1);
 
         }
 
@@ -197,7 +197,7 @@ class WPSL_ShippingLabel
 
                     $this->setFont(null, 'B', 16);
 
-                    $this->pdf->MultiCell(0,$this->getScaledSpacing(5, "sender_content"), iconv('utf-8', 'cp1252', $field['title']), 0, 1);
+                    $this->pdf->MultiCell(0,$this->getScaledSpacing(5, "receiver_content"), iconv('utf-8', 'cp1252', $field['title']), 0, 1);
 
                 }
 
@@ -205,7 +205,7 @@ class WPSL_ShippingLabel
 
                     $this->setFont('sender_content');
 
-                    $this->pdf->Multicell(0, $this->getScaledSpacing(5, "sender_content"), iconv('utf-8', 'cp1252', $field['value']), 0, 1);
+                    $this->pdf->Multicell(0, $this->getScaledSpacing(5, "receiver_content"), iconv('utf-8', 'cp1252', $field['value']), 0, 1);
 
                 }
             }
@@ -233,12 +233,20 @@ class WPSL_ShippingLabel
 
         if (isset($settingName) && !empty($settingName)) {
 
-            $internalFontSize = $this->settings[$settingName . '_fontSize'] ?? null;
+            if ($settingName === 'sender_content') {
 
-            if (!$internalFontSize) {
-                throw new Exception('Fontsize not found for: ' . htmlspecialchars($settingName));
-            } else if ((int) $internalFontSize < 6 || (int) $internalFontSize > 35) {
-                throw new Exception('Fontsize is invalid for: ' . htmlspecialchars($settingName));
+                $internalFontSize = 12;
+
+            } else {
+
+                $internalFontSize = $this->settings[$settingName . '_fontSize'] ?? null;
+
+                if (!$internalFontSize) {
+                    throw new Exception('Fontsize not found for: ' . htmlspecialchars($settingName));
+                } else if ((int) $internalFontSize < 6 || (int) $internalFontSize > 35) {
+                    throw new Exception('Fontsize is invalid for: ' . htmlspecialchars($settingName));
+                }
+
             }
 
         } else if (isset($fontSize) && !empty($fontSize)) {

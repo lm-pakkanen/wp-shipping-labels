@@ -3,7 +3,7 @@
  * Plugin Name: WPSL | WordPress Shipping Labels
  * Author: Harriot Software
  * Description: WooCommerce extension for printing custom shipping labels.
- * Version: 0.9
+ * Version: 0.9.1
  * Requires at least: 5.5
  * Requires PHP: 7.4
  * Text Domain: WP_shipping_labels
@@ -66,10 +66,6 @@ class WP_shipping_labels {
 
         if (empty(get_option('WPSL_pdf_fontFamily'))) {
             update_option('WPSL_pdf_fontFamily', 'Times');
-        }
-
-        if (empty(get_option('WPSL_pdf_sender_content_fontSize'))) {
-            update_option('WPSL_pdf_sender_content_fontSize', 12);
         }
 
         if (empty(get_option('WPSL_pdf_receiver_title_fontSize'))) {

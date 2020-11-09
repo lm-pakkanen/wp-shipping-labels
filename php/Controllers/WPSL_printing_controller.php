@@ -144,7 +144,6 @@ class WPSL_printing_controller
                 'width' => get_option('WPSL_pdf_width'),
                 'height' => get_option('WPSL_pdf_height'),
                 'fontFamily' => get_option('WPSL_pdf_fontFamily'),
-                'sender_content_fontSize' => get_option('WPSL_pdf_sender_content_fontSize'),
                 'receiver_title_fontSize' => get_option('WPSL_pdf_receiver_title_fontSize'),
                 'receiver_content_fontSize' => get_option('WPSL_pdf_receiver_content_fontSize'),
                 'spaceBeforeFrom' => get_option('WPSL_pdf_spaceBeforeFrom'),

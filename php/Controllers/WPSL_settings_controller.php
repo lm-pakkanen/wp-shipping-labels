@@ -111,8 +111,6 @@ class WPSL_settings_controller
 
         register_setting($optionGroup, 'WPSL_pdf_fontFamily');
 
-        register_setting($optionGroup, 'WPSL_pdf_sender_content_fontSize');
-
         register_setting($optionGroup, 'WPSL_pdf_receiver_title_fontSize');
         register_setting($optionGroup, 'WPSL_pdf_receiver_content_fontSize');
 
@@ -277,20 +275,6 @@ class WPSL_settings_controller
             [
                 'type' => 'number',
                 'name' => 'pdf_receiver_content_fontSize',
-                'min' => 6,
-                'max' => 35
-            ]
-        );
-
-        add_settings_field(
-            'WPSL_pdf_sender_content_fontSize',
-            '"From" section content fontsize:',
-            [$this, 'getInput'],
-            $page,
-            $section,
-            [
-                'type' => 'number',
-                'name' => 'pdf_sender_content_fontSize',
                 'min' => 6,
                 'max' => 35
             ]
