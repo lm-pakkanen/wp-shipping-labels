@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: WordPress shipping labels | WPSL
+ * Plugin Name: WPSL | WordPress Shipping Labels
  * Author: Harriot Software
- * Description: Print custom shipping labels automatically.
- * Version: 0.1
+ * Description: WooCommerce extension for printing custom shipping labels.
+ * Version: 0.9.1
  * Requires at least: 5.5
  * Requires PHP: 7.4
  * Text Domain: WP_shipping_labels
@@ -16,24 +16,15 @@ if (!defined( 'ABSPATH' )) {
     exit("Direct access denied.");
 }
 
-/**
- * Require controllers
- */
 require_once(__DIR__ . '/php/Controllers/index.php');
 
-/**
- * Main class
- */
 class WP_shipping_labels {
 
-    /**
-     * Register hooks
-     */
     public function __construct()
     {
-        register_activation_hook(__FILE__, 'activate');
-        register_deactivation_hook(__FILE__, 'deactivate');
-        register_uninstall_hook(__FILE__, 'uninstall');
+        register_activation_hook(__FILE__, [__CLASS__, 'activate']);
+        register_deactivation_hook(__FILE__, [__CLASS__, 'deactivate']);
+        register_uninstall_hook(__FILE__, [__CLASS__, 'uninstall']);
 
         add_action('init', [$this, 'init']);
 
@@ -41,7 +32,7 @@ class WP_shipping_labels {
     }
 
     /**
-     * Initialize plugin
+     * Init hook
      */
     function init() {
         $this->addScripts();
@@ -49,7 +40,7 @@ class WP_shipping_labels {
     }
 
     /**
-     * Start controller
+     * Starts controllers
      */
     private function startControllers() {
         new WPSL_settings_controller();
@@ -60,26 +51,49 @@ class WP_shipping_labels {
     /**
      * Activate plugin
      */
-    public function activate() {
-        // TODO: Add default values for document size
+    public static function activate() {
+
+        if (empty(get_option('WPSL_pdf_width')) || empty(get_option('WPSL_pdf_height'))) {
+
+            update_option('WPSL_pdf_width', 107);
+            update_option('WPSL_pdf_height', 225);
+
+        }
+
+        if (empty(get_option('WPSL_pdf_spaceBeforeFrom'))) {
+            update_option('WPSL_pdf_spaceBeforeFrom', 35);
+        }
+
+        if (empty(get_option('WPSL_pdf_fontFamily'))) {
+            update_option('WPSL_pdf_fontFamily', 'Times');
+        }
+
+        if (empty(get_option('WPSL_pdf_receiver_title_fontSize'))) {
+            update_option('WPSL_pdf_receiver_title_fontSize', 22);
+        }
+
+        if (empty(get_option('WPSL_pdf_receiver_content_fontSize'))) {
+            update_option('WPSL_pdf_receiver_content_fontSize', 16);
+        }
+
     }
 
     /**
-     * Deactivate plugin
+     * Deactivates plugin
      */
-    public function deactivate() {
+    public static function deactivate() {
 
     }
 
     /**
-     * Uninstall plugin
+     * Uninstalls plugin
      */
-    public function uninstall() {
-        // TODO: Remove DB values
+    public static function uninstall() {
+
     }
 
     /**
-     * Enqueue JavaScript
+     * Enqueues JavaScript
      */
     function addScripts() {
         wp_register_script('WPSLScript', plugins_url( '/js/WPSL.js', __FILE__), ['jquery']);
@@ -87,7 +101,7 @@ class WP_shipping_labels {
     }
 
     /**
-     * Enqueue CSS
+     * Enqueues CSS
      */
     function addCss() {
         wp_register_style('WPSLCss', plugins_url( '/css/index.css', __FILE__));

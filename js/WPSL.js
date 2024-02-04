@@ -10,6 +10,11 @@ jQuery(document).ready($ => {
 
         const isPriority = $('#WPSL_isPriority').is(':checked') ?? null;
 
+        const toFieldLabel = $('#WPSL_to').val() ?? null;
+        const fromFieldLabel = $('#WPSL_from').val() ?? null;
+
+        if (!(toFieldLabel && fromFieldLabel)) { return; }
+
         const customFields = {
             titles: $('.WPSL_customFieldTitle') ?? null,
             values: $('.WPSL_customFieldValue') ?? null
@@ -39,6 +44,9 @@ jQuery(document).ready($ => {
         }
 
         if (isPriority) { href = href + '&isPriority'; }
+
+        href += '&toFieldLabel=' + toFieldLabel;
+        href += '&fromFieldLabel=' + fromFieldLabel;
 
         if (customFieldValues) {
             href += '&customFields=' + JSON.stringify(customFieldValues);

@@ -7,6 +7,11 @@ if (!defined( 'ABSPATH' )) {
 class WPSL_shop_order
 {
 
+    /**
+     * Get MetaBox for WPSL
+     * @param array $options
+     * @throws Exception
+     */
     public static function getWPSLMetaBox(array $options) {
 
         if (!isset($options) || empty($options)) {
@@ -15,6 +20,7 @@ class WPSL_shop_order
 
         echo self::getUrlInput($options['href']);
         echo self::getIsPriorityInput();
+        echo self::getLabelInputs();
         echo self::getCustomFieldInputs($options['customFieldCount']);
         echo self::getSubmitButton();
     }
@@ -46,20 +52,40 @@ class WPSL_shop_order
     }
 
     /**
+     * Gets 'to' & 'from' fields' label input
+     */
+    private static function getLabelInputs() {
+
+        $field = '';
+
+        $field .= '<div>';
+        $field .= '<label for="WPSL_to">"To" field label:</label>';
+        $field .= '<input type="text" id="WPSL_to" name="WPSL_to" value="To:"/>';
+
+        $field .= '<label for="WPSL_from">"From" field label:</label>';
+        $field .= '<input type="text" id="WPSL_from" name="WPSL_from" value="From:" />';
+        $field .= '</div>';
+
+        return $field;
+
+    }
+
+    /**
      * Add custom fields in a loop
      * @param int $count
      * @return string
+     * @throws Exception
      */
-    private static function getCustomFieldInputs(int $count = 3) {
+    private static function getCustomFieldInputs(int $count) {
 
-        if (!is_int($count)) {
+        if (!is_int($count) || $count < 0) {
             throw new Exception('Required parameter "Count" invalid.');
         }
 
         /**
          * Limit custom field count to 0-3
          */
-        if (!($count > 0 && $count < 3)) { $count = 3; }
+        if ($count > 3) { $count = 3; }
 
         $field = '';
 
@@ -76,7 +102,11 @@ class WPSL_shop_order
         return $field;
     }
 
+    /**
+     * Get submit button for MetaBox
+     * @return string
+     */
     private static function getSubmitButton() {
-        return '<button type="submit" id="WPSL_submit" title="Print shipping label">Print shipping label</button>';
+        return '<button type="submit" id="WPSL_submit" title="Print shipping label">Print WPSL shipping label</button>';
     }
 }

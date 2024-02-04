@@ -15,12 +15,15 @@ class WPSL_printing_controller
         add_action('admin_init', [$this, 'admin_init']);
     }
 
+    /**
+     * Admin_init hook
+     */
     public function admin_init() {
         $this->addPrintingWindow();
     }
 
     /**
-     * Creates window where PDF is shown on
+     * Creates PDF viewing window
      */
     private function addPrintingWindow() {
 
@@ -130,18 +133,33 @@ class WPSL_printing_controller
 
             $options = [
                 'isPriority' => isset($_GET['isPriority']),
+                'toFieldLabel' => $_GET['toFieldLabel'] ?? null,
+                'fromFieldLabel' => $_GET['fromFieldLabel'] ?? null,
                 'receiver' => $to,
                 'sender' => $from,
                 'customFields' => $customFields
             ];
 
             $settings = [
-                'pdfWidth' => !empty(get_option('WPSL_pdf_width')) ? get_option('WPSL_pdf_width') : null,
-                'pdfHeight' => !empty(get_option('WPSL_pdf_height')) ? get_option('WPSL_pdf_height') : null,
-                'pdfFontFamily' => !empty(get_option('WPSL_pdf_fontFamily')) ? get_option('WPSL_pdf_fontFamily') : null,
-                'pdfFontStyle' => !empty(get_option('WPSL_pdf_fontStyle')) ? get_option('WPSL_pdf_fontStyle') : null,
-                'pdfFontSize' => !empty(get_option('WPSL_pdf_fontSize')) ? get_option('WPSL_pdf_fontSize') : null,
+                'width' => get_option('WPSL_pdf_width'),
+                'height' => get_option('WPSL_pdf_height'),
+                'fontFamily' => get_option('WPSL_pdf_fontFamily'),
+                'receiver_title_fontSize' => get_option('WPSL_pdf_receiver_title_fontSize'),
+                'receiver_content_fontSize' => get_option('WPSL_pdf_receiver_content_fontSize'),
+                'spaceBeforeFrom' => get_option('WPSL_pdf_spaceBeforeFrom'),
             ];
+
+            if (!($settings['width'] && $settings['height'])) {
+                WPSL_printing::showFatalError(new Exception('Required parameters "PDF width | height" missing.'));
+                die();
+            }
+
+            /**
+             * Replace empty strings with null
+             */
+            $settings = array_map(function($value) {
+                return $value === '' ? null : $value;
+            }, $settings);
 
             try {
 
@@ -161,6 +179,10 @@ class WPSL_printing_controller
         }
     }
 
+    /**
+     * Checks if user is allowed to view page
+     * @return string[]
+     */
     private function isUserAllowed() {
 
         global $current_user;

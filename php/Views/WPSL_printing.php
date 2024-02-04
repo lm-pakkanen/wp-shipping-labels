@@ -4,9 +4,6 @@ if (!defined( 'ABSPATH' )) {
     exit("Direct access denied.");
 }
 
-/**
- * Shipping label printing page
- */
 class WPSL_printing
 {
     /**

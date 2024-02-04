@@ -6,6 +6,9 @@ if (!defined( 'ABSPATH' )) {
 
 class WPSL_settings
 {
+    /**
+     * Get settings page
+     */
     public static function getSettingsPage() {
 
         echo '<div class="WPSL_settings">';
@@ -27,6 +30,11 @@ class WPSL_settings
         echo '</div>';
     }
 
+    /**
+     * Get input field
+     * @param array $args
+     * @throws Exception
+     */
     public static function getInput(array $args){
 
         $type = $args['type'] ?? 'text';
@@ -56,13 +64,13 @@ class WPSL_settings
 
                 if (!isset($options) || !is_array($options)) { return; }
 
-                echo '<select name="' . $name . '" value="test">';
+                echo '<select name="' . $name . '">';
 
                 forEach($options as $option) {
 
                     $option = htmlspecialchars($option);
 
-                    echo '<option value="' . $option . '">' . $option . '</option>';
+                    echo '<option value="' . $option . '" ' . selected(get_option($name), $option) . '>' . $option . '</option>';
                 }
 
                 echo '</select>';
@@ -76,9 +84,4 @@ class WPSL_settings
 
     }
 
-    public static function getPdfInput(array $args) {
-
-
-
-    }
 }
